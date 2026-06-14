@@ -613,7 +613,7 @@
     function restartTimer() {
       if (reducedMotion) return;
       window.clearInterval(timer);
-      timer = window.setInterval(nextSlide, 6200);
+      timer = window.setInterval(nextSlide, 3000);
     }
 
     track.addEventListener("transitionend", function () {
