@@ -565,13 +565,6 @@
     }, 2800);
   }
 
-  function initAjaxHint() {
-    if (!window.jQuery) return;
-    window.jQuery(document).on("click", "[data-ui-ready]", function () {
-      showToast("Thao tác đã sẵn sàng ở giao diện mẫu.");
-    });
-  }
-
   document.addEventListener("DOMContentLoaded", function () {
     var session = requireAuth();
     hydrateStaticIcons();
@@ -579,7 +572,6 @@
     renderTopbar(session);
     bindShellActions();
     bindToastButtons();
-    initAjaxHint();
 
     loadData().then(function (data) {
       renderLanding(data);
