@@ -209,8 +209,8 @@ button {
   min-height: min(700px, 78vh);
   color: #fff;
   background:
-    linear-gradient(90deg, rgba(5, 43, 83, 0.88), rgba(5, 43, 83, 0.58) 42%, rgba(5, 43, 83, 0.06) 76%),
-    url("../img/cover-pharmacare.svg") center right / cover no-repeat;
+    linear-gradient(90deg, rgba(4, 42, 78, 0.78), rgba(4, 42, 78, 0.42) 38%, rgba(255, 255, 255, 0.06) 72%),
+    url("../img/cover-pharmacare.png") center right / cover no-repeat;
 }
 
 .hero::after {
@@ -260,6 +260,30 @@ button {
   font-size: clamp(40px, 5vw, 72px);
   line-height: 1.02;
   font-weight: 700;
+}
+
+.hero h1.hero-wordmark {
+  position: relative;
+  display: inline-block;
+  padding-right: 18px;
+  font-family: "Edwardian Script ITC", "Palace Script MT", "Bickham Script Pro", "Segoe Script", "Brush Script MT", cursive;
+  font-size: clamp(68px, 8vw, 128px);
+  font-weight: 400;
+  line-height: .92;
+  color: #fff;
+  text-shadow: 0 12px 34px rgba(2, 28, 55, .28);
+}
+
+.hero h1.hero-wordmark::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 4%;
+  bottom: -8px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .92), rgba(255, 255, 255, .18));
+  box-shadow: 0 7px 18px rgba(255, 255, 255, .2);
 }
 
 .hero p {
@@ -611,7 +635,7 @@ button {
   min-height: 100vh;
   background:
     linear-gradient(120deg, rgba(5, 43, 83, .88), rgba(0, 120, 215, .58)),
-    url("../img/cover-pharmacare.svg") center / cover no-repeat;
+    url("../img/cover-pharmacare.png") center / cover no-repeat;
 }
 
 .auth-shell {
@@ -1426,7 +1450,7 @@ button {
     min-height: auto;
     background:
       linear-gradient(180deg, rgba(5, 43, 83, 0.95), rgba(5, 43, 83, 0.6)),
-      url("../img/cover-pharmacare.svg") center / cover no-repeat;
+      url("../img/cover-pharmacare.png") center / cover no-repeat;
   }
 
   .hero-inner {
@@ -1520,6 +1544,10 @@ button {
 
   .hero h1 {
     font-size: 38px;
+  }
+
+  .hero h1.hero-wordmark {
+    font-size: 62px;
   }
 
   .hero-actions,
