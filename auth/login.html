@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Đăng nhập PharmaCare">
+  <title>Đăng nhập - PharmaCare</title>
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <section class="auth-copy" aria-label="Thông tin PharmaCare">
+      <a class="brand" href="../index.html" aria-label="PharmaCare">
+        <img src="../assets/img/logo.svg" alt="PharmaCare">
+      </a>
+      <h1>Đăng nhập vào hệ thống quản lý nhà thuốc</h1>
+      <p>Giao diện tạm thời hỗ trợ ba vai trò vận hành để kiểm thử luồng nghiệp vụ trước khi kết nối các lớp xử lý phía sau.</p>
+      <div class="hero-facts">
+        <div class="hero-fact">
+          <strong>quanly</strong>
+          <span>Mật khẩu quanly</span>
+        </div>
+        <div class="hero-fact">
+          <strong>banthuoc</strong>
+          <span>Mật khẩu banthuoc</span>
+        </div>
+        <div class="hero-fact">
+          <strong>admin</strong>
+          <span>Mật khẩu admin</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-panel" aria-labelledby="loginTitle">
+      <h1 id="loginTitle">Đăng nhập</h1>
+      <p>Nhập tài khoản được cấp hoặc email đã đăng ký trong giao diện mẫu.</p>
+
+      <div id="authAlert" class="alert" role="status"></div>
+
+      <form id="loginForm" class="form-grid" autocomplete="on">
+        <div class="form-row">
+          <label for="account">Tài khoản hoặc email</label>
+          <input id="account" class="form-control" name="account" type="text" autocomplete="username" required>
+        </div>
+        <div class="form-row">
+          <label for="password">Mật khẩu</label>
+          <input id="password" class="form-control" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="auth-actions">
+          <button class="btn btn-primary" type="submit">Đăng nhập</button>
+        </div>
+      </form>
+
+      <div class="divider"><span>Hoặc đăng nhập bằng</span></div>
+      <div class="social-row">
+        <button class="btn btn-light" type="button" data-social-login="google">Google</button>
+        <button class="btn btn-light" type="button" data-social-login="facebook">Facebook</button>
+      </div>
+
+      <p class="auth-switch">Chưa có tài khoản? <a href="register.html">Đăng ký tại đây</a></p>
+      <p class="form-note"><a href="../index.html">Quay lại trang giới thiệu</a></p>
+    </section>
+  </main>
+
+  <script>
+    window.PHARMA_BASE = "../";
+  </script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</body>
+</html>
