@@ -3,26 +3,31 @@
     {
       "name": "Thực phẩm chức năng",
       "description": "Vitamin, khoáng chất, hỗ trợ miễn dịch, tiêu hóa, tim mạch và chăm sóc sức khỏe chủ động.",
+      "image": "assets/img/categories/category-supplements.jpg",
       "groups": ["Vitamin", "Miễn dịch", "Tiêu hóa", "Tim mạch"]
     },
     {
       "name": "Dược mỹ phẩm",
       "description": "Chăm sóc da mặt, da cơ thể, tóc, vùng mắt và các giải pháp làn da.",
+      "image": "assets/img/categories/category-cosmetics.jpg",
       "groups": ["Da mặt", "Cơ thể", "Tóc", "Thiên nhiên"]
     },
     {
       "name": "Thuốc",
       "description": "Tra cứu thuốc, dược chất, dược liệu và nhóm điều trị theo hướng quản lý chuyên môn.",
+      "image": "assets/img/categories/category-medicine.jpg",
       "groups": ["Kháng sinh", "Tim mạch", "Thần kinh", "Hô hấp"]
     },
     {
       "name": "Chăm sóc cá nhân",
       "description": "Vệ sinh cá nhân, răng miệng, thực phẩm đồ uống và hàng tổng hợp.",
+      "image": "assets/img/categories/category-personal-care.jpg",
       "groups": ["Vệ sinh", "Răng miệng", "Gia đình", "Tinh dầu"]
     },
     {
       "name": "Thiết bị y tế",
       "description": "Dụng cụ y tế, dụng cụ theo dõi, sơ cứu, khẩu trang và vật tư tiêu hao.",
+      "image": "assets/img/categories/category-medical-device.jpg",
       "groups": ["Theo dõi", "Sơ cứu", "Khẩu trang", "Vật tư"]
     }
   ],

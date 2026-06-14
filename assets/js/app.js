@@ -233,7 +233,7 @@
     if (categoryGrid) {
       categoryGrid.innerHTML = data.categories.map(function (category) {
         return '<article class="category-card">' +
-          '<span class="feature-icon">' + icon("box") + '</span>' +
+          (category.image ? '<div class="category-image"><img src="' + asset(category.image) + '" alt="' + category.name + '" loading="lazy"></div>' : '<span class="feature-icon">' + icon("box") + '</span>') +
           '<h3>' + category.name + '</h3>' +
           '<p>' + category.description + '</p>' +
           '<div class="category-meta">' + category.groups.map(function (group) {
