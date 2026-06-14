@@ -1346,6 +1346,23 @@ button {
   line-height: 1.55;
 }
 
+.panel .activity-item,
+.panel .alert-item,
+.panel .policy-item {
+  padding-right: 0;
+  padding-left: 0;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.panel .activity-item:first-child,
+.panel .alert-item:first-child,
+.panel .policy-item:first-child {
+  border-top: 0;
+}
+
 .toast {
   position: fixed;
   right: 18px;
