@@ -1,0 +1,274 @@
+{
+  "categories": [
+    {
+      "name": "Thực phẩm chức năng",
+      "description": "Vitamin, khoáng chất, hỗ trợ miễn dịch, tiêu hóa, tim mạch và chăm sóc sức khỏe chủ động.",
+      "groups": ["Vitamin", "Miễn dịch", "Tiêu hóa", "Tim mạch"]
+    },
+    {
+      "name": "Dược mỹ phẩm",
+      "description": "Chăm sóc da mặt, da cơ thể, tóc, vùng mắt và các giải pháp làn da.",
+      "groups": ["Da mặt", "Cơ thể", "Tóc", "Thiên nhiên"]
+    },
+    {
+      "name": "Thuốc",
+      "description": "Tra cứu thuốc, dược chất, dược liệu và nhóm điều trị theo hướng quản lý chuyên môn.",
+      "groups": ["Kháng sinh", "Tim mạch", "Thần kinh", "Hô hấp"]
+    },
+    {
+      "name": "Chăm sóc cá nhân",
+      "description": "Vệ sinh cá nhân, răng miệng, thực phẩm đồ uống và hàng tổng hợp.",
+      "groups": ["Vệ sinh", "Răng miệng", "Gia đình", "Tinh dầu"]
+    },
+    {
+      "name": "Thiết bị y tế",
+      "description": "Dụng cụ y tế, dụng cụ theo dõi, sơ cứu, khẩu trang và vật tư tiêu hao.",
+      "groups": ["Theo dõi", "Sơ cứu", "Khẩu trang", "Vật tư"]
+    }
+  ],
+  "products": [
+    {
+      "code": "TPCN-001",
+      "name": "Omega 3 Power DAO Nordic Health",
+      "active": "Dầu cá, EPA, DHA",
+      "category": "Thực phẩm chức năng",
+      "supplier": "Nordic Health",
+      "price": 390000,
+      "stock": 86,
+      "expiry": "2027-11-30",
+      "image": "assets/img/product-blue.svg"
+    },
+    {
+      "code": "TPCN-002",
+      "name": "Vitamin C PharmaCare 1000mg",
+      "active": "Acid ascorbic",
+      "category": "Thực phẩm chức năng",
+      "supplier": "PharmaCare Distribution",
+      "price": 128000,
+      "stock": 32,
+      "expiry": "2027-06-18",
+      "image": "assets/img/product-orange.svg"
+    },
+    {
+      "code": "TPCN-003",
+      "name": "Men tiêu hóa Pro Balance",
+      "active": "Lactobacillus, Bifidobacterium",
+      "category": "Thực phẩm chức năng",
+      "supplier": "BioHealth",
+      "price": 245000,
+      "stock": 14,
+      "expiry": "2026-08-12",
+      "image": "assets/img/product-green.svg"
+    },
+    {
+      "code": "THUOC-101",
+      "name": "Paracetamol 500mg",
+      "active": "Paracetamol",
+      "category": "Thuốc",
+      "supplier": "Mekophar",
+      "price": 32000,
+      "stock": 185,
+      "expiry": "2028-01-15",
+      "image": "assets/img/product-orange.svg"
+    },
+    {
+      "code": "THUOC-118",
+      "name": "Cetirizine 10mg",
+      "active": "Cetirizine dihydrochloride",
+      "category": "Thuốc",
+      "supplier": "DHG Pharma",
+      "price": 42000,
+      "stock": 23,
+      "expiry": "2026-07-20",
+      "image": "assets/img/product-blue.svg"
+    },
+    {
+      "code": "THUOC-124",
+      "name": "ORS bù nước điện giải",
+      "active": "Glucose, Natri clorid, Kali clorid",
+      "category": "Thuốc",
+      "supplier": "Pharmedic",
+      "price": 18000,
+      "stock": 0,
+      "expiry": "2027-03-10",
+      "image": "assets/img/product-green.svg"
+    },
+    {
+      "code": "DMP-201",
+      "name": "Gel rửa mặt dịu nhẹ Derma Clean",
+      "active": "Panthenol, Niacinamide",
+      "category": "Dược mỹ phẩm",
+      "supplier": "DermaLab",
+      "price": 185000,
+      "stock": 41,
+      "expiry": "2027-09-09",
+      "image": "assets/img/product-blue.svg"
+    },
+    {
+      "code": "DMP-208",
+      "name": "Kem dưỡng phục hồi Skin Barrier",
+      "active": "Ceramide, HA",
+      "category": "Dược mỹ phẩm",
+      "supplier": "CareSkin",
+      "price": 268000,
+      "stock": 19,
+      "expiry": "2026-09-02",
+      "image": "assets/img/product-green.svg"
+    },
+    {
+      "code": "CSCN-301",
+      "name": "Nước súc miệng Fresh Mint",
+      "active": "Cetylpyridinium chloride",
+      "category": "Chăm sóc cá nhân",
+      "supplier": "OralPro",
+      "price": 74000,
+      "stock": 58,
+      "expiry": "2027-02-22",
+      "image": "assets/img/product-blue.svg"
+    },
+    {
+      "code": "CSCN-316",
+      "name": "Dung dịch vệ sinh tay nhanh",
+      "active": "Ethanol 70%",
+      "category": "Chăm sóc cá nhân",
+      "supplier": "CleanLife",
+      "price": 52000,
+      "stock": 7,
+      "expiry": "2026-06-29",
+      "image": "assets/img/product-red.svg"
+    },
+    {
+      "code": "TBYT-401",
+      "name": "Máy đo huyết áp bắp tay AutoCare",
+      "active": "Thiết bị theo dõi",
+      "category": "Thiết bị y tế",
+      "supplier": "MedEquip",
+      "price": 690000,
+      "stock": 12,
+      "expiry": "2029-12-31",
+      "image": "assets/img/product-red.svg"
+    },
+    {
+      "code": "TBYT-409",
+      "name": "Khẩu trang y tế 4 lớp",
+      "active": "Vải không dệt, màng lọc",
+      "category": "Thiết bị y tế",
+      "supplier": "AnTam Medical",
+      "price": 38000,
+      "stock": 240,
+      "expiry": "2028-05-25",
+      "image": "assets/img/product-blue.svg"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "HD-260614-001",
+      "customer": "Khách lẻ",
+      "staff": "Nguyễn Minh Anh",
+      "total": 548000,
+      "status": "Đã thanh toán",
+      "createdAt": "2026-06-14 09:18"
+    },
+    {
+      "id": "HD-260614-002",
+      "customer": "Phòng khám An Bình",
+      "staff": "Trần Quốc Huy",
+      "total": 1542000,
+      "status": "Chờ kiểm tra",
+      "createdAt": "2026-06-14 10:45"
+    },
+    {
+      "id": "HD-260613-018",
+      "customer": "Khách lẻ",
+      "staff": "Lê Thảo Nhi",
+      "total": 224000,
+      "status": "Đã thanh toán",
+      "createdAt": "2026-06-13 18:02"
+    },
+    {
+      "id": "HD-260613-017",
+      "customer": "Nhà thuốc vệ tinh Q7",
+      "staff": "Nguyễn Minh Anh",
+      "total": 3210000,
+      "status": "Đã hủy",
+      "createdAt": "2026-06-13 16:30"
+    }
+  ],
+  "finance": [
+    {
+      "code": "PT-260614-01",
+      "type": "Thu",
+      "content": "Doanh thu bán hàng trong ngày",
+      "amount": 5480000,
+      "createdAt": "2026-06-14"
+    },
+    {
+      "code": "PC-260614-02",
+      "type": "Chi",
+      "content": "Thanh toán nhà cung cấp thiết bị y tế",
+      "amount": 2180000,
+      "createdAt": "2026-06-14"
+    },
+    {
+      "code": "PT-260613-03",
+      "type": "Thu",
+      "content": "Thu công nợ phòng khám",
+      "amount": 7400000,
+      "createdAt": "2026-06-13"
+    },
+    {
+      "code": "PC-260613-04",
+      "type": "Chi",
+      "content": "Chi phí vận chuyển nhập kho",
+      "amount": 420000,
+      "createdAt": "2026-06-13"
+    }
+  ],
+  "employees": [
+    {
+      "id": "NV-001",
+      "name": "Nguyễn Minh Anh",
+      "role": "Quản lý",
+      "phone": "0901000001",
+      "status": "Đang làm"
+    },
+    {
+      "id": "NV-002",
+      "name": "Trần Quốc Huy",
+      "role": "Dược sĩ",
+      "phone": "0901000002",
+      "status": "Đang làm"
+    },
+    {
+      "id": "NV-003",
+      "name": "Lê Thảo Nhi",
+      "role": "Nhân viên bán thuốc",
+      "phone": "0901000003",
+      "status": "Đang làm"
+    },
+    {
+      "id": "NV-004",
+      "name": "Phạm Gia Bảo",
+      "role": "Kho",
+      "phone": "0901000004",
+      "status": "Tạm nghỉ"
+    }
+  ],
+  "activities": [
+    {
+      "title": "Nhập kho lô Vitamin C",
+      "description": "86 sản phẩm đã được cập nhật vào tồn kho.",
+      "status": "Hoàn tất"
+    },
+    {
+      "title": "Kiểm tra hóa đơn bán buôn",
+      "description": "Hóa đơn HD-260614-002 đang chờ quản lý duyệt.",
+      "status": "Chờ duyệt"
+    },
+    {
+      "title": "Cảnh báo hạn dùng",
+      "description": "3 sản phẩm cần kiểm tra hạn sử dụng trong 30 ngày tới.",
+      "status": "Cần xử lý"
+    }
+  ]
+}
