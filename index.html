@@ -6,7 +6,7 @@
   <meta name="description" content="PharmaCare - nền tảng quản lý nhà thuốc cho doanh nghiệp tại Việt Nam.">
   <title>PharmaCare</title>
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/app.css?v=20260614-categories1">
+  <link rel="stylesheet" href="assets/css/app.css?v=20260614-products1">
 </head>
 <body>
   <a class="skip-link" href="#content">Chuyển đến nội dung</a>
@@ -132,6 +132,20 @@
           </div>
         </div>
         <div id="categoryGrid" class="grid-3"></div>
+        <div class="product-browser" id="productBrowser">
+          <div class="product-browser-head">
+            <div>
+              <span class="eyebrow-inline" id="productBrowserCount">Danh sách sản phẩm</span>
+              <h3 id="productBrowserTitle">Sản phẩm theo danh mục</h3>
+            </div>
+            <select id="categoryProductSelect" class="form-select" aria-label="Chọn danh mục sản phẩm"></select>
+          </div>
+          <div id="subcategoryPills" class="filter-pills" aria-label="Nhóm sản phẩm"></div>
+          <div id="landingProductGrid" class="product-list-grid" aria-live="polite"></div>
+          <div class="load-more-wrap">
+            <button id="loadMoreProducts" class="btn btn-outline" type="button">Xem thêm sản phẩm</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -250,6 +264,6 @@
   <script>
     window.PHARMA_BASE = "";
   </script>
-  <script src="assets/js/app.js?v=20260614-categories1"></script>
+  <script src="assets/js/app.js?v=20260614-products1"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Danh mục sản phẩm - PharmaCare</title>
   <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../../assets/css/app.css?v=20260614-categories1">
+  <link rel="stylesheet" href="../../assets/css/app.css?v=20260614-products1">
 </head>
 <body class="app-body" data-requires-auth="true" data-roles="banthuoc,quanly,admin" data-nav="san-pham" data-title="Danh mục sản phẩm">
   <div id="overlay" class="overlay"></div>
@@ -38,12 +38,27 @@
           <button class="btn btn-light" type="button" data-toast="Bộ lọc nâng cao đã được đặt chỗ trong giao diện.">Lọc nâng cao</button>
         </section>
 
+        <section class="panel product-browser" id="productBrowser">
+          <div class="product-browser-head">
+            <div>
+              <span class="eyebrow-inline" id="productBrowserCount">Danh sách sản phẩm</span>
+              <h2 id="productBrowserTitle">Sản phẩm theo danh mục</h2>
+            </div>
+            <select id="categoryProductSelect" class="form-select" aria-label="Chọn danh mục sản phẩm"></select>
+          </div>
+          <div id="subcategoryPills" class="filter-pills" aria-label="Nhóm sản phẩm"></div>
+          <div id="landingProductGrid" class="product-list-grid" aria-live="polite"></div>
+          <div class="load-more-wrap">
+            <button id="loadMoreProducts" class="btn btn-outline" type="button">Xem thêm sản phẩm</button>
+          </div>
+        </section>
+
         <section id="productTable" class="table-wrap" aria-label="Bảng danh mục sản phẩm"></section>
       </main>
     </div>
   </div>
 
   <script>window.PHARMA_BASE = "../../";</script>
-  <script src="../../assets/js/app.js?v=20260614-categories1"></script>
+  <script src="../../assets/js/app.js?v=20260614-products1"></script>
 </body>
 </html>

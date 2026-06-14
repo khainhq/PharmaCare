@@ -36,6 +36,15 @@
     return base + path;
   }
 
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   function getSession() {
     try {
       return JSON.parse(localStorage.getItem(sessionKey) || "null");
@@ -232,14 +241,14 @@
     var categoryGrid = qs("#categoryGrid");
     if (categoryGrid) {
       categoryGrid.innerHTML = data.categories.map(function (category) {
-        return '<article class="category-card">' +
-          (category.image ? '<div class="category-image"><img src="' + asset(category.image) + '" alt="' + category.name + '" loading="lazy"></div>' : '<span class="feature-icon">' + icon("box") + '</span>') +
-          '<h3>' + category.name + '</h3>' +
-          '<p>' + category.description + '</p>' +
+        return '<button class="category-card category-card-button" type="button" data-category-filter="' + escapeHtml(category.name) + '">' +
+          (category.image ? '<div class="category-image"><img src="' + asset(category.image) + '" alt="' + escapeHtml(category.name) + '" loading="lazy"></div>' : '<span class="feature-icon">' + icon("box") + '</span>') +
+          '<h3>' + escapeHtml(category.name) + '</h3>' +
+          '<p>' + escapeHtml(category.description) + '</p>' +
           '<div class="category-meta">' + category.groups.map(function (group) {
-            return '<span class="tag">' + group + '</span>';
+            return '<span class="tag">' + escapeHtml(group) + '</span>';
           }).join("") + '</div>' +
-          '</article>';
+          '</button>';
       }).join("");
     }
 
@@ -250,6 +259,137 @@
         '<article class="metric-card"><span class="feature-icon">' + icon("file") + '</span><h3>' + number(data.invoices.length) + ' hóa đơn</h3><p>Theo dõi kiểm tra, hủy, thống kê và in hóa đơn tại quầy.</p></article>' +
         '<article class="metric-card"><span class="feature-icon">' + icon("alert") + '</span><h3>' + countWarnings(data.products) + ' cảnh báo</h3><p>Theo dõi tồn kho thấp, hết hàng và hạn sử dụng gần tới.</p></article>';
     }
+  }
+
+  function unique(list) {
+    return list.filter(function (item, index) {
+      return item && list.indexOf(item) === index;
+    });
+  }
+
+  function productDetails(product) {
+    return [
+      ["Số đăng ký", product.registrationNumber],
+      ["Thành phần", product.ingredients],
+      ["Dạng bào chế", product.dosageForm],
+      ["Quy cách", product.specification],
+      ["Danh mục", product.childCategory || product.subcategory || product.category],
+      ["Nhà sản xuất", product.manufacturer || product.brand || product.supplier],
+      ["Nước sản xuất", product.origin],
+      ["Hạn sử dụng", product.shelfLife || (product.expiry ? product.expiry.split("-").reverse().join("/") : "")]
+    ].filter(function (item) {
+      return item[1];
+    }).map(function (item) {
+      return '<div><dt>' + escapeHtml(item[0]) + '</dt><dd>' + escapeHtml(item[1]) + '</dd></div>';
+    }).join("");
+  }
+
+  function productListCard(product) {
+    var listedPrice = product.listedPrice && product.listedPrice > product.price ? '<span class="old-price">' + money(product.listedPrice) + '</span>' : "";
+    var unit = product.unit ? " / " + product.unit.toLowerCase() : "";
+    return '<article class="product-list-card" data-product-card data-text="' + escapeHtml([product.name, product.code, product.category, product.subcategory, product.childCategory, product.active].join(" ").toLowerCase()) + '">' +
+      '<div class="product-list-image"><img src="' + asset(product.image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy"></div>' +
+      '<div class="product-list-body">' +
+        '<span class="tag">' + escapeHtml(product.subcategory || product.category) + '</span>' +
+        '<h3>' + escapeHtml(product.name) + '</h3>' +
+        '<p>' + escapeHtml(product.active || product.ingredients || product.specification || "") + '</p>' +
+        '<details class="product-info-toggle"><summary>Thông tin sản phẩm</summary><dl class="product-detail-list">' + productDetails(product) + '</dl></details>' +
+      '</div>' +
+      '<footer><div><strong class="price">' + money(product.price) + unit + '</strong>' + listedPrice + '</div></footer>' +
+      '</article>';
+  }
+
+  function renderProductBrowser(data) {
+    var grid = qs("#landingProductGrid");
+    var categorySelect = qs("#categoryProductSelect");
+    var subcategoryPills = qs("#subcategoryPills");
+    var loadMore = qs("#loadMoreProducts");
+    if (!grid || !categorySelect || !subcategoryPills || !loadMore) return;
+
+    var categories = unique(data.categories.map(function (category) { return category.name; }));
+    var state = {
+      category: categories[0] || "",
+      subcategory: "Tất cả",
+      visible: 8
+    };
+
+    function categoryProducts() {
+      return data.products.filter(function (product) {
+        return product.category === state.category;
+      });
+    }
+
+    function filteredProducts() {
+      return categoryProducts().filter(function (product) {
+        return state.subcategory === "Tất cả" || product.subcategory === state.subcategory || product.childCategory === state.subcategory;
+      });
+    }
+
+    function renderCategoryCards() {
+      qsa("[data-category-filter]").forEach(function (button) {
+        var active = button.dataset.categoryFilter === state.category;
+        button.classList.toggle("is-active", active);
+      });
+    }
+
+    function renderSubcategories() {
+      var subcategories = ["Tất cả"].concat(unique(categoryProducts().map(function (product) {
+        return product.subcategory || product.category;
+      })));
+      if (subcategories.indexOf(state.subcategory) === -1) {
+        state.subcategory = "Tất cả";
+      }
+      subcategoryPills.innerHTML = subcategories.map(function (name) {
+        return '<button class="filter-pill' + (name === state.subcategory ? ' is-active' : '') + '" type="button" data-subcategory-filter="' + escapeHtml(name) + '">' + escapeHtml(name) + '</button>';
+      }).join("");
+    }
+
+    function render() {
+      var products = filteredProducts();
+      var visibleProducts = products.slice(0, state.visible);
+      var title = qs("#productBrowserTitle");
+      var count = qs("#productBrowserCount");
+      if (title) title.textContent = state.category + (state.subcategory !== "Tất cả" ? " - " + state.subcategory : "");
+      if (count) count.textContent = number(products.length) + " sản phẩm";
+      grid.innerHTML = visibleProducts.map(productListCard).join("") || emptyState("Chưa có sản phẩm trong nhóm này.");
+      loadMore.hidden = state.visible >= products.length;
+      renderCategoryCards();
+      renderSubcategories();
+    }
+
+    categorySelect.innerHTML = categories.map(function (name) {
+      return '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + '</option>';
+    }).join("");
+    categorySelect.value = state.category;
+    categorySelect.addEventListener("change", function () {
+      state.category = categorySelect.value;
+      state.subcategory = "Tất cả";
+      state.visible = 8;
+      render();
+    });
+    subcategoryPills.addEventListener("click", function (event) {
+      var button = event.target.closest("[data-subcategory-filter]");
+      if (!button) return;
+      state.subcategory = button.dataset.subcategoryFilter;
+      state.visible = 8;
+      render();
+    });
+    qsa("[data-category-filter]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        state.category = button.dataset.categoryFilter;
+        state.subcategory = "Tất cả";
+        state.visible = 8;
+        categorySelect.value = state.category;
+        render();
+        var browser = qs("#productBrowser");
+        if (browser) browser.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+    loadMore.addEventListener("click", function () {
+      state.visible += 8;
+      render();
+    });
+    render();
   }
 
   function countWarnings(products) {
@@ -305,9 +445,9 @@
     var stock = stockStatus(product);
     var expiry = expiryStatus(product);
     return '<tr>' +
-      '<td><div class="table-product"><img src="' + asset(product.image) + '" alt=""><div><strong>' + product.name + '</strong><span>' + product.code + ' · ' + product.active + '</span></div></div></td>' +
-      '<td>' + product.category + '</td>' +
-      '<td>' + product.supplier + '</td>' +
+      '<td><div class="table-product"><img src="' + asset(product.image) + '" alt="" loading="lazy"><div><strong>' + escapeHtml(product.name) + '</strong><span>' + escapeHtml(product.code + ' · ' + (product.active || product.subcategory || "")) + '</span></div></div></td>' +
+      '<td>' + escapeHtml(product.category) + '</td>' +
+      '<td>' + escapeHtml(product.supplier) + '</td>' +
       '<td>' + money(product.price) + '</td>' +
       '<td>' + number(product.stock) + '</td>' +
       '<td><span class="status ' + statusClass(stock) + '">' + stock + '</span></td>' +
@@ -332,9 +472,9 @@
       var stock = stockStatus(product);
       var expiry = expiryStatus(product);
       return '<tr>' +
-        '<td><strong>' + product.code + '</strong></td>' +
-        '<td>' + product.name + '</td>' +
-        '<td>' + product.category + '</td>' +
+        '<td><strong>' + escapeHtml(product.code) + '</strong></td>' +
+        '<td>' + escapeHtml(product.name) + '</td>' +
+        '<td>' + escapeHtml(product.category) + '</td>' +
         '<td>' + number(product.stock) + '</td>' +
         '<td>' + product.expiry.split("-").reverse().join("/") + '</td>' +
         '<td><span class="status ' + statusClass(stock) + '">' + stock + '</span></td>' +
@@ -354,7 +494,7 @@
       var text = product.stock <= 0 ? "Hết hàng" : (product.stock <= 15 ? "Sắp hết hàng" : expiryStatus(product));
       return '<article class="alert-item">' +
         '<span class="nav-icon">' + icon("alert") + '</span>' +
-        '<div><h4>' + product.name + '</h4><p>' + product.code + ' · Tồn ' + number(product.stock) + ' · Hạn ' + product.expiry.split("-").reverse().join("/") + '</p></div>' +
+        '<div><h4>' + escapeHtml(product.name) + '</h4><p>' + escapeHtml(product.code) + ' · Tồn ' + number(product.stock) + ' · Hạn ' + product.expiry.split("-").reverse().join("/") + '</p></div>' +
         '<span class="status ' + statusClass(text) + '">' + text + '</span>' +
         '</article>';
     }).join("") || emptyState("Chưa có cảnh báo tồn kho hoặc hạn dùng.");
@@ -364,12 +504,12 @@
     var target = qs("#productGrid");
     if (!target) return;
     target.innerHTML = data.products.map(function (product) {
-      return '<article class="product-card" data-product-card data-text="' + [product.name, product.code, product.category, product.active].join(" ").toLowerCase() + '">' +
-        '<img src="' + asset(product.image) + '" alt="">' +
-        '<h3>' + product.name + '</h3>' +
-        '<p>' + product.code + ' · ' + product.category + '</p>' +
-        '<p>Hoạt chất: ' + product.active + '</p>' +
-        '<footer><span class="price">' + money(product.price) + '</span><button class="btn btn-primary" type="button" data-add-cart="' + product.code + '">' + icon("plus") + '<span>Thêm</span></button></footer>' +
+      return '<article class="product-card" data-product-card data-text="' + escapeHtml([product.name, product.code, product.category, product.subcategory, product.active].join(" ").toLowerCase()) + '">' +
+        '<img src="' + asset(product.image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy">' +
+        '<h3>' + escapeHtml(product.name) + '</h3>' +
+        '<p>' + escapeHtml(product.code + ' · ' + product.category) + '</p>' +
+        '<p>Thông tin: ' + escapeHtml(product.ingredients || product.active || product.specification || product.subcategory) + '</p>' +
+        '<footer><span class="price">' + money(product.price) + '</span><button class="btn btn-primary" type="button" data-add-cart="' + escapeHtml(product.code) + '">' + icon("plus") + '<span>Thêm</span></button></footer>' +
         '</article>';
     }).join("");
     bindProductFilter();
@@ -658,6 +798,7 @@
 
     loadData().then(function (data) {
       renderLanding(data);
+      renderProductBrowser(data);
       renderKpis(data);
       renderActivities(data);
       renderChart();
