@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-labelledby="title">
+  <title id="title">Thiet bi y te mau do</title>
+  <rect width="320" height="240" rx="28" fill="#fff1f0"/>
+  <rect x="78" y="70" width="164" height="104" rx="24" fill="#fff" stroke="#ffd0cb" stroke-width="6"/>
+  <rect x="112" y="45" width="96" height="52" rx="16" fill="#da251d"/>
+  <path fill="#fff" d="M153 56h14v14h14v14h-14v14h-14V84h-14V70h14z"/>
+  <path d="M110 130h100" stroke="#da251d" stroke-width="16" stroke-linecap="round"/>
+  <path d="M126 154h68" stroke="#ff8a80" stroke-width="12" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280" role="img" aria-labelledby="title">
+  <title id="title">Trang thai rong</title>
+  <rect width="420" height="280" rx="32" fill="#eef8ff"/>
+  <rect x="88" y="64" width="244" height="152" rx="24" fill="#fff" stroke="#b8e6fb" stroke-width="6"/>
+  <path d="M132 112h156M132 146h116M132 180h76" stroke="#89d7ef" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="300" cy="188" r="42" fill="#0078d7"/>
+  <path d="m282 188 14 14 29-36" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

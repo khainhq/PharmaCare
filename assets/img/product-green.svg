@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-labelledby="title">
+  <title id="title">Lo san pham mau xanh la</title>
+  <rect width="320" height="240" rx="28" fill="#effaf4"/>
+  <rect x="112" y="44" width="96" height="28" rx="10" fill="#0f8f64"/>
+  <rect x="96" y="66" width="128" height="132" rx="30" fill="#fff" stroke="#b9edd4" stroke-width="6"/>
+  <rect x="116" y="116" width="88" height="54" rx="14" fill="#e3f8ed"/>
+  <path d="M141 144c15-31 41-41 56-30-3 25-26 43-56 30z" fill="#15a76d"/>
+  <path d="M146 141c20-9 32-17 45-27" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+</svg>

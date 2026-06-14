@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 72" role="img" aria-labelledby="title desc">
+  <title id="title">PharmaCare</title>
+  <desc id="desc">Logo PharmaCare with medical cross and blue wordmark</desc>
+  <defs>
+    <linearGradient id="mark" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0078d7"/>
+      <stop offset="1" stop-color="#00a6d6"/>
+    </linearGradient>
+  </defs>
+  <rect width="72" height="72" rx="18" fill="url(#mark)"/>
+  <path fill="#fff" d="M32 16h8v16h16v8H40v16h-8V40H16v-8h16z"/>
+  <path fill="#dff6ff" d="M51.8 18.2c7 7 7 18.4 0 25.5L37.4 58.1l-6.5-6.5 14.4-14.4c3.4-3.4 3.4-9 0-12.5z" opacity=".75"/>
+  <text x="88" y="32" fill="#083c74" font-family="Roboto, Arial, sans-serif" font-size="26" font-weight="800">PharmaCare</text>
+  <text x="90" y="52" fill="#2a6f9f" font-family="Roboto, Arial, sans-serif" font-size="13" font-weight="600">Quan ly nha thuoc hien dai</text>
+</svg>

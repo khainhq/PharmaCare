@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-labelledby="title">
+  <title id="title">Hop san pham mau xanh</title>
+  <rect width="320" height="240" rx="28" fill="#eef8ff"/>
+  <rect x="58" y="58" width="152" height="112" rx="18" fill="#fff" stroke="#b8e6fb" stroke-width="6"/>
+  <rect x="58" y="58" width="152" height="34" rx="18" fill="#0078d7"/>
+  <path fill="#00a6d6" d="M128 108h18v25h25v18h-25v25h-18v-25h-25v-18h25z"/>
+  <rect x="218" y="86" width="46" height="106" rx="23" fill="#0078d7"/>
+  <rect x="218" y="86" width="46" height="53" rx="23" fill="#fff" opacity=".9"/>
+</svg>

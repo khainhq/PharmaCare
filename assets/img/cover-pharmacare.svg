@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">Anh bia PharmaCare</title>
+  <desc id="desc">PharmaCare dashboard with Vietnam flag and pharmacy operations illustration</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#e9f7ff"/>
+      <stop offset="0.54" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dff3ff"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#006dcc"/>
+      <stop offset="1" stop-color="#00a6d6"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#003e73" flood-opacity=".18"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="760" fill="url(#sky)"/>
+  <path d="M0 612c170-72 337-86 501-43 165 43 328 41 489-6 109-32 206-39 290-21v218H0z" fill="#d8f1ff"/>
+  <path d="M0 647c172-33 330-32 474 4 177 44 339 35 486-26 116-48 223-63 320-46v181H0z" fill="#bfe8ff"/>
+  <g transform="translate(96 72)" filter="url(#shadow)">
+    <rect width="530" height="360" rx="34" fill="#fff"/>
+    <rect x="34" y="34" width="214" height="58" rx="17" fill="url(#blue)"/>
+    <path fill="#fff" d="M66 47h10v18h18v10H76v18H66V75H48V65h18z"/>
+    <text x="108" y="72" fill="#fff" font-family="Roboto, Arial, sans-serif" font-size="22" font-weight="800">PharmaCare</text>
+    <rect x="34" y="126" width="462" height="54" rx="18" fill="#eef8ff"/>
+    <rect x="34" y="205" width="132" height="98" rx="18" fill="#f3fbff"/>
+    <rect x="192" y="205" width="132" height="98" rx="18" fill="#f3fbff"/>
+    <rect x="350" y="205" width="146" height="98" rx="18" fill="#f3fbff"/>
+    <path d="M66 154h170" stroke="#1b75bb" stroke-width="12" stroke-linecap="round"/>
+    <path d="M66 245h60M224 245h56M382 245h72" stroke="#00a6d6" stroke-width="12" stroke-linecap="round"/>
+    <path d="M66 272h76M224 272h72M382 272h54" stroke="#7fcde8" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(724 88)" filter="url(#shadow)">
+    <rect width="384" height="250" rx="30" fill="#fff"/>
+    <rect x="34" y="36" width="126" height="84" rx="14" fill="#da251d"/>
+    <path fill="#ffde00" d="m97 50 8.7 26.8H134L111.1 93.4l8.7 26.6L97 103.6 74.2 120l8.7-26.6L60 76.8h28.3z"/>
+    <text x="190" y="70" fill="#083c74" font-family="Roboto, Arial, sans-serif" font-size="24" font-weight="800">San sang phuc vu</text>
+    <text x="190" y="99" fill="#2a6f9f" font-family="Roboto, Arial, sans-serif" font-size="16" font-weight="600">Van hanh nha thuoc tai Viet Nam</text>
+    <rect x="34" y="154" width="316" height="18" rx="9" fill="#dff3ff"/>
+    <rect x="34" y="188" width="230" height="18" rx="9" fill="#b8e6fb"/>
+  </g>
+  <g transform="translate(720 390)">
+    <rect x="0" y="68" width="328" height="112" rx="24" fill="#fff" filter="url(#shadow)"/>
+    <rect x="34" y="98" width="70" height="50" rx="14" fill="#0078d7"/>
+    <rect x="48" y="89" width="42" height="16" rx="8" fill="#68c7e8"/>
+    <path d="M133 111h145M133 140h90" stroke="#1b75bb" stroke-width="14" stroke-linecap="round"/>
+    <circle cx="275" cy="140" r="23" fill="#e8f8ee"/>
+    <path d="m264 139 9 9 18-24" fill="none" stroke="#15a76d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(394 0)">
+      <circle cx="96" cy="72" r="66" fill="#dff3ff"/>
+      <path d="M62 72c0-27 17-46 40-46s40 19 40 46v72H62z" fill="#0078d7"/>
+      <circle cx="102" cy="66" r="34" fill="#f2c7a2"/>
+      <path d="M67 63c5-28 24-44 55-38 22 4 32 20 34 39-28 6-57 2-89-1z" fill="#083c74"/>
+      <rect x="56" y="130" width="96" height="118" rx="24" fill="#fff"/>
+      <path d="M88 158h32v24h24v32h-24v24H88v-24H64v-32h24z" fill="#00a6d6"/>
+    </g>
+  </g>
+  <g transform="translate(186 488)">
+    <rect width="406" height="138" rx="26" fill="#fff" filter="url(#shadow)"/>
+    <path d="M40 100c32-46 62-68 91-66 48 3 47 65 88 64 34 0 42-42 75-43 27 0 47 23 70 55" fill="none" stroke="#0078d7" stroke-width="16" stroke-linecap="round"/>
+    <circle cx="71" cy="63" r="14" fill="#00a6d6"/>
+    <circle cx="219" cy="98" r="14" fill="#15a76d"/>
+    <circle cx="295" cy="56" r="14" fill="#f2aa2e"/>
+  </g>
+</svg>

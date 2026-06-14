@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-labelledby="title">
+  <title id="title">Vỉ san pham mau vang</title>
+  <rect width="320" height="240" rx="28" fill="#fff7e8"/>
+  <rect x="62" y="58" width="196" height="124" rx="24" fill="#fff" stroke="#ffd58a" stroke-width="6"/>
+  <g fill="#f2aa2e">
+    <circle cx="106" cy="98" r="18"/>
+    <circle cx="160" cy="98" r="18"/>
+    <circle cx="214" cy="98" r="18"/>
+    <circle cx="106" cy="142" r="18"/>
+    <circle cx="160" cy="142" r="18"/>
+    <circle cx="214" cy="142" r="18"/>
+  </g>
+</svg>
