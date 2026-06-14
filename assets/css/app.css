@@ -141,6 +141,12 @@ button {
   line-height: 1.2;
 }
 
+.btn svg {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+}
+
 .btn-primary {
   color: #fff;
   background: var(--blue-700);
@@ -184,6 +190,11 @@ button {
   width: 42px;
   min-width: 42px;
   padding: 0;
+}
+
+.btn-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .hero {
@@ -1507,6 +1518,11 @@ button {
   .product-grid,
   .preview-kpis {
     grid-template-columns: 1fr;
+  }
+
+  .product-card footer {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .activity-item,
