@@ -222,6 +222,12 @@
     }
   }
 
+  function hydrateStaticIcons() {
+    qsa("[data-icon]").forEach(function (target) {
+      target.innerHTML = icon(target.dataset.icon);
+    });
+  }
+
   function renderLanding(data) {
     var categoryGrid = qs("#categoryGrid");
     if (categoryGrid) {
@@ -568,6 +574,7 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     var session = requireAuth();
+    hydrateStaticIcons();
     renderSidebar(session);
     renderTopbar(session);
     bindShellActions();
