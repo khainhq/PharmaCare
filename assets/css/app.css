@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
 :root {
   --blue-950: #052b53;
   --blue-900: #083c74;
@@ -18,7 +20,7 @@
   --shadow: 0 16px 44px rgba(8, 60, 116, 0.12);
   --radius: 8px;
   --sidebar: 284px;
-  --font-family: "Inter", "Inter Fallback", "Noto Color Emoji", sans-serif;
+  --font-family: "Inter", "Inter Fallback", sans-serif;
   --font-ui: var(--font-family);
   --font-display: var(--font-family);
 }
@@ -52,6 +54,7 @@ svg {
 
 a {
   color: inherit;
+  font-family: var(--font-family);
   text-decoration: none;
 }
 
@@ -60,6 +63,7 @@ input,
 select,
 textarea {
   font: inherit;
+  font-family: var(--font-family);
 }
 
 button {
@@ -126,6 +130,7 @@ button {
   padding: 10px 12px;
   color: var(--blue-900);
   border-radius: var(--radius);
+  font-family: var(--font-family);
   font-weight: 700;
 }
 
@@ -144,6 +149,7 @@ button {
   padding: 10px 16px;
   border: 1px solid transparent;
   border-radius: var(--radius);
+  font-family: var(--font-family);
   font-weight: 800;
   line-height: 1.2;
 }
@@ -324,6 +330,7 @@ button {
   color: #dbf5ff;
   border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: 999px;
+  font-family: var(--font-family);
   font-weight: 800;
   line-height: 1.25;
   white-space: nowrap;
