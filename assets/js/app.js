@@ -246,8 +246,8 @@
     var landingStats = qs("#landingStats");
     if (landingStats) {
       landingStats.innerHTML =
-        '<article class="metric-card"><span class="feature-icon">' + icon("box") + '</span><h3>' + number(data.products.length) + ' mặt hàng mẫu</h3><p>Dữ liệu được tách riêng để sẵn sàng kết nối hệ thống thật.</p></article>' +
-        '<article class="metric-card"><span class="feature-icon">' + icon("file") + '</span><h3>' + number(data.invoices.length) + ' hóa đơn demo</h3><p>Mô phỏng kiểm tra, hủy, thống kê và in hóa đơn tại quầy.</p></article>' +
+        '<article class="metric-card"><span class="feature-icon">' + icon("box") + '</span><h3>' + number(data.products.length) + ' mặt hàng</h3><p>Dữ liệu sản phẩm được tổ chức theo danh mục nghiệp vụ.</p></article>' +
+        '<article class="metric-card"><span class="feature-icon">' + icon("file") + '</span><h3>' + number(data.invoices.length) + ' hóa đơn</h3><p>Theo dõi kiểm tra, hủy, thống kê và in hóa đơn tại quầy.</p></article>' +
         '<article class="metric-card"><span class="feature-icon">' + icon("alert") + '</span><h3>' + countWarnings(data.products) + ' cảnh báo</h3><p>Theo dõi tồn kho thấp, hết hàng và hạn sử dụng gần tới.</p></article>';
     }
   }
@@ -270,7 +270,7 @@
     var employees = data.employees.filter(function (employee) { return employee.status === "Đang làm"; }).length;
 
     target.innerHTML = [
-      ["Doanh thu mẫu", money(revenue), "Cập nhật theo hóa đơn"],
+      ["Doanh thu", money(revenue), "Cập nhật theo hóa đơn"],
       ["Tồn kho", number(stock), lowStock + " mặt hàng cần chú ý"],
       ["Nhân sự hoạt động", number(employees), "Theo phân quyền nội bộ"],
       ["Cảnh báo", number(countWarnings(data.products)), "Tồn kho và hạn sử dụng"]
@@ -442,7 +442,7 @@
     var checkout = qs("#checkoutButton");
     if (checkout) {
       checkout.addEventListener("click", function () {
-        showToast(cart.length ? "Hóa đơn đã được xác nhận ở giao diện mẫu." : "Vui lòng thêm sản phẩm trước khi xác nhận.");
+        showToast(cart.length ? "Hóa đơn đã được xác nhận trên giao diện." : "Vui lòng thêm sản phẩm trước khi xác nhận.");
       });
     }
 
@@ -476,7 +476,7 @@
     if (!target) return;
     target.innerHTML = '<table class="data-table"><thead><tr><th>Mã</th><th>Họ tên</th><th>Vai trò</th><th>Số điện thoại</th><th>Trạng thái</th><th>Thao tác</th></tr></thead><tbody>' +
       data.employees.map(function (employee) {
-        return '<tr><td><strong>' + employee.id + '</strong></td><td>' + employee.name + '</td><td>' + employee.role + '</td><td>' + employee.phone + '</td><td><span class="status ' + statusClass(employee.status) + '">' + employee.status + '</span></td><td><button class="btn btn-outline" type="button" data-toast="Màn hình chi tiết nhân viên sẽ nối backend ở giai đoạn sau.">Chi tiết</button></td></tr>';
+        return '<tr><td><strong>' + employee.id + '</strong></td><td>' + employee.name + '</td><td>' + employee.role + '</td><td>' + employee.phone + '</td><td><span class="status ' + statusClass(employee.status) + '">' + employee.status + '</span></td><td><button class="btn btn-outline" type="button" data-toast="Màn hình chi tiết nhân viên sẽ được hoàn thiện ở giai đoạn sau.">Chi tiết</button></td></tr>';
       }).join("") +
       '</tbody></table>';
     bindTableFilter("#employeeSearch", "#employeeTable tbody tr");
@@ -510,7 +510,7 @@
       '<div class="panel"><h3>Sản phẩm nổi bật</h3><div class="alert-list">' + best.map(function (product) {
         return '<article class="alert-item"><span class="nav-icon">' + icon("box") + '</span><div><h4>' + product.name + '</h4><p>' + product.category + ' · Tồn ' + number(product.stock) + '</p></div><span class="status status-ok">Theo dõi</span></article>';
       }).join("") + '</div></div>' +
-      '<div class="panel"><h3>Dòng tiền mẫu</h3><div class="chart-bars" style="min-height:230px">' + [48, 68, 58, 82, 77, 91, 73].map(function (value, index) {
+      '<div class="panel"><h3>Dòng tiền</h3><div class="chart-bars" style="min-height:230px">' + [48, 68, 58, 82, 77, 91, 73].map(function (value, index) {
         return '<div class="bar"><span style="height:' + value + '%"></span><small>T' + (index + 1) + '</small></div>';
       }).join("") + '</div></div>' +
       '</div>';

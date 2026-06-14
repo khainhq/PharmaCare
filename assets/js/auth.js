@@ -97,7 +97,7 @@
 
       var exists = users.some(function (item) { return item.email === email; });
       if (exists) {
-        showAlert("error", "Email này đã được đăng ký trong dữ liệu mẫu.");
+        showAlert("error", "Email này đã được đăng ký trong hệ thống.");
         return;
       }
 
