@@ -18,8 +18,9 @@
   --shadow: 0 16px 44px rgba(8, 60, 116, 0.12);
   --radius: 8px;
   --sidebar: 284px;
-  --font-ui: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-family: "Inter", "Inter Fallback", sans-serif, "Noto Color Emoji";
+  --font-ui: var(--font-family);
+  --font-display: var(--font-family);
 }
 
 * {
