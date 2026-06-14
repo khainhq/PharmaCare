@@ -206,11 +206,21 @@ button {
 .hero {
   position: relative;
   isolation: isolate;
+  overflow: hidden;
   min-height: min(700px, 78vh);
   color: #fff;
+  background: #dff3ff;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(4, 42, 78, 0.78), rgba(4, 42, 78, 0.42) 38%, rgba(255, 255, 255, 0.06) 72%),
-    url("../img/cover-pharmacare.png") center right / cover no-repeat;
+    linear-gradient(90deg, rgba(4, 42, 78, 0.82), rgba(4, 42, 78, 0.46) 39%, rgba(255, 255, 255, 0.08) 76%),
+    linear-gradient(0deg, rgba(5, 43, 83, .16), rgba(5, 43, 83, 0) 42%);
 }
 
 .hero::after {
@@ -219,10 +229,80 @@ button {
   inset: auto 0 0;
   height: 72px;
   background: linear-gradient(0deg, #fff, rgba(255, 255, 255, 0));
-  z-index: -1;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-slider {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform .85s cubic-bezier(.22, .61, .36, 1);
+  will-change: transform;
+}
+
+.hero-slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: cover;
+}
+
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  color: var(--blue-950);
+  border: 1px solid rgba(255, 255, 255, .72);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .82);
+  box-shadow: 0 14px 34px rgba(4, 42, 78, .18);
+  transform: translateY(-50%);
+  backdrop-filter: blur(12px);
+}
+
+.hero-arrow:hover,
+.hero-arrow:focus-visible {
+  color: #fff;
+  background: var(--blue-700);
+  outline: none;
+}
+
+.hero-arrow svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero-arrow-prev {
+  left: clamp(12px, 2.4vw, 38px);
+}
+
+.hero-arrow-next {
+  right: clamp(12px, 2.4vw, 38px);
 }
 
 .hero-inner {
+  position: relative;
+  z-index: 3;
   display: flex;
   align-items: center;
   min-height: inherit;
@@ -1448,9 +1528,16 @@ button {
 
   .hero {
     min-height: auto;
+  }
+
+  .hero::before {
     background:
-      linear-gradient(180deg, rgba(5, 43, 83, 0.95), rgba(5, 43, 83, 0.6)),
-      url("../img/cover-pharmacare.png") center / cover no-repeat;
+      linear-gradient(180deg, rgba(5, 43, 83, 0.94), rgba(5, 43, 83, 0.64)),
+      linear-gradient(90deg, rgba(5, 43, 83, .36), rgba(5, 43, 83, 0));
+  }
+
+  .hero-slide {
+    background-position: center right;
   }
 
   .hero-inner {
@@ -1548,6 +1635,16 @@ button {
 
   .hero h1.hero-wordmark {
     font-size: 62px;
+  }
+
+  .hero-arrow {
+    width: 38px;
+    height: 38px;
+  }
+
+  .hero-arrow svg {
+    width: 23px;
+    height: 23px;
   }
 
   .hero-actions,

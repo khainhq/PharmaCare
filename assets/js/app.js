@@ -565,8 +565,91 @@
     }, 2800);
   }
 
+  function initHeroCarousel() {
+    var carousel = qs("[data-hero-carousel]");
+    if (!carousel) return;
+
+    var track = qs("[data-hero-track]", carousel);
+    var slides = qsa(".hero-slide", track);
+    if (!track || slides.length < 2) return;
+
+    var slideCount = slides.length;
+    var index = 0;
+    var timer = null;
+    var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    track.appendChild(slides[0].cloneNode(true));
+
+    function setIndex(nextIndex, animate) {
+      track.style.transition = animate ? "" : "none";
+      index = nextIndex;
+      track.style.transform = "translateX(-" + (index * 100) + "%)";
+
+      if (!animate) {
+        window.requestAnimationFrame(function () {
+          track.style.transition = "";
+        });
+      }
+    }
+
+    function nextSlide() {
+      setIndex(index + 1, true);
+    }
+
+    function previousSlide() {
+      if (index === 0) {
+        setIndex(slideCount, false);
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(function () {
+            setIndex(slideCount - 1, true);
+          });
+        });
+        return;
+      }
+
+      setIndex(index - 1, true);
+    }
+
+    function restartTimer() {
+      if (reducedMotion) return;
+      window.clearInterval(timer);
+      timer = window.setInterval(nextSlide, 6200);
+    }
+
+    track.addEventListener("transitionend", function () {
+      if (index === slideCount) {
+        setIndex(0, false);
+      }
+    });
+
+    var nextButton = qs("[data-hero-next]", carousel);
+    var prevButton = qs("[data-hero-prev]", carousel);
+
+    if (nextButton) {
+      nextButton.addEventListener("click", function () {
+        nextSlide();
+        restartTimer();
+      });
+    }
+
+    if (prevButton) {
+      prevButton.addEventListener("click", function () {
+        previousSlide();
+        restartTimer();
+      });
+    }
+
+    carousel.addEventListener("mouseenter", function () {
+      window.clearInterval(timer);
+    });
+
+    carousel.addEventListener("mouseleave", restartTimer);
+    restartTimer();
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     var session = requireAuth();
+    initHeroCarousel();
     hydrateStaticIcons();
     renderSidebar(session);
     renderTopbar(session);
