@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Báo cáo - PharmaCare</title>
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/app.css">
+</head>
+<body class="app-body" data-requires-auth="true" data-roles="quanly,admin" data-nav="bao-cao" data-title="Báo cáo thống kê">
+  <div id="overlay" class="overlay"></div>
+  <div class="app-layout">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="app-main">
+      <header id="topbar" class="topbar"></header>
+      <main class="content">
+        <section class="page-title">
+          <div>
+            <h1>Báo cáo thống kê</h1>
+            <p>Tổng hợp doanh thu, hóa đơn, tồn kho, sản phẩm bán chạy và dòng tiền vào ra trong giao diện mẫu.</p>
+          </div>
+          <button class="btn btn-primary" type="button" data-toast="Báo cáo xuất file sẽ kết nối backend ở giai đoạn sau.">Xuất báo cáo</button>
+        </section>
+
+        <section id="kpiGrid" class="stat-grid" aria-label="Chỉ số báo cáo"></section>
+        <section id="reportPanel"></section>
+      </main>
+    </div>
+  </div>
+
+  <script>window.PHARMA_BASE = "../../";</script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/app.js"></script>
+</body>
+</html>

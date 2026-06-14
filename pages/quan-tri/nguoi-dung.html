@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quản trị người dùng - PharmaCare</title>
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/app.css">
+</head>
+<body class="app-body" data-requires-auth="true" data-roles="admin" data-nav="quan-tri" data-title="Quản trị người dùng">
+  <div id="overlay" class="overlay"></div>
+  <div class="app-layout">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="app-main">
+      <header id="topbar" class="topbar"></header>
+      <main class="content">
+        <section class="page-title">
+          <div>
+            <h1>Quản trị người dùng</h1>
+            <p>Quản lý tài khoản đăng nhập, vai trò, trạng thái hoạt động và chính sách truy cập theo phân quyền.</p>
+          </div>
+          <button class="btn btn-primary" type="button" data-toast="Tạo tài khoản quản trị sẽ kết nối backend ở giai đoạn sau.">Tạo tài khoản</button>
+        </section>
+
+        <section class="two-col">
+          <div>
+            <div class="panel-header">
+              <h2>Tài khoản và vai trò</h2>
+              <span class="tag">Kiểm soát truy cập</span>
+            </div>
+            <div id="userTable" class="table-wrap" aria-label="Bảng người dùng"></div>
+          </div>
+
+          <aside class="panel">
+            <div class="panel-header">
+              <h2>Chính sách truy cập</h2>
+              <span class="tag">Năm 2026</span>
+            </div>
+            <div class="policy-list">
+              <article class="policy-item">
+                <h3>Quản lý</h3>
+                <p>Được xem báo cáo, kho, hóa đơn, tài chính và nhân viên.</p>
+              </article>
+              <article class="policy-item">
+                <h3>Dược sĩ bán thuốc</h3>
+                <p>Được bán hàng, tra cứu sản phẩm và xem hóa đơn liên quan.</p>
+              </article>
+              <article class="policy-item">
+                <h3>Quản trị viên</h3>
+                <p>Được quản lý tài khoản, vai trò và các lớp cấu hình truy cập.</p>
+              </article>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>window.PHARMA_BASE = "../../";</script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/app.js"></script>
+</body>
+</html>
