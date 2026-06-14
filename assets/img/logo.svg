@@ -10,6 +10,6 @@
   <rect width="72" height="72" rx="18" fill="url(#mark)"/>
   <path fill="#fff" d="M32 16h8v16h16v8H40v16h-8V40H16v-8h16z"/>
   <path fill="#dff6ff" d="M51.8 18.2c7 7 7 18.4 0 25.5L37.4 58.1l-6.5-6.5 14.4-14.4c3.4-3.4 3.4-9 0-12.5z" opacity=".75"/>
-  <text x="88" y="32" fill="#083c74" font-family="Roboto, Arial, sans-serif" font-size="26" font-weight="800">PharmaCare</text>
-  <text x="90" y="52" fill="#2a6f9f" font-family="Roboto, Arial, sans-serif" font-size="13" font-weight="600">Quan ly nha thuoc hien dai</text>
+  <text x="88" y="32" fill="#083c74" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="800">PharmaCare</text>
+  <text x="90" y="52" fill="#2a6f9f" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">Quan ly nha thuoc hien dai</text>
 </svg>
