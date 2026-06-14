@@ -18,7 +18,7 @@
   --shadow: 0 16px 44px rgba(8, 60, 116, 0.12);
   --radius: 8px;
   --sidebar: 284px;
-  --font-family: "Inter", "Inter Fallback", sans-serif, "Noto Color Emoji";
+  --font-family: "Inter", "Inter Fallback", "Noto Color Emoji", sans-serif;
   --font-ui: var(--font-family);
   --font-display: var(--font-family);
 }
@@ -318,13 +318,20 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  max-width: 100%;
   margin-bottom: 18px;
   padding: 8px 12px;
   color: #dbf5ff;
   border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: 999px;
   font-weight: 800;
+  line-height: 1.25;
+  white-space: nowrap;
   background: rgba(255, 255, 255, 0.1);
+}
+
+.eyebrow-short {
+  display: none;
 }
 
 .hero h1,
@@ -1636,6 +1643,18 @@ button {
 
   .hero h1.hero-wordmark {
     font-size: 62px;
+  }
+
+  .eyebrow {
+    font-size: 14px;
+  }
+
+  .eyebrow-full {
+    display: none;
+  }
+
+  .eyebrow-short {
+    display: inline;
   }
 
   .hero-arrow {
