@@ -1,0 +1,15 @@
+*.doc
+*.docx
+*.pdf
+*.rar
+*.zip
+*.7z
+*.txt
+README.md
+node_modules/
+dist/
+.env
+.env.*
+.DS_Store
+Thumbs.db
+phần mềm nhóm 5/
