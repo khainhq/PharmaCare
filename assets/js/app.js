@@ -716,14 +716,40 @@
     var slideCount = slides.length;
     var index = 0;
     var timer = null;
+    var dotsContainer = qs("[data-hero-dots]", carousel);
+    var isDragging = false;
+    var startX = 0;
+    var dragX = 0;
     var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     track.appendChild(slides[0].cloneNode(true));
 
+    if (dotsContainer) {
+      dotsContainer.innerHTML = slides.map(function (_, dotIndex) {
+        return '<button class="hero-dot" type="button" data-hero-dot="' + dotIndex + '" aria-label="Chuyển đến ảnh bìa ' + (dotIndex + 1) + '"></button>';
+      }).join("");
+    }
+
+    function currentDotIndex() {
+      return index === slideCount ? 0 : index;
+    }
+
+    function updateDots() {
+      if (!dotsContainer) return;
+      qsa(".hero-dot", dotsContainer).forEach(function (dot, dotIndex) {
+        dot.classList.toggle("is-active", dotIndex === currentDotIndex());
+      });
+    }
+
+    function transformWithOffset(offset) {
+      track.style.transform = "translateX(calc(-" + (index * 100) + "% + " + offset + "px))";
+    }
+
     function setIndex(nextIndex, animate) {
       track.style.transition = animate ? "" : "none";
       index = nextIndex;
-      track.style.transform = "translateX(-" + (index * 100) + "%)";
+      transformWithOffset(0);
+      updateDots();
 
       if (!animate) {
         window.requestAnimationFrame(function () {
@@ -760,30 +786,69 @@
       if (index === slideCount) {
         setIndex(0, false);
       }
+      updateDots();
     });
 
-    var nextButton = qs("[data-hero-next]", carousel);
-    var prevButton = qs("[data-hero-prev]", carousel);
+    if (dotsContainer) {
+      dotsContainer.addEventListener("click", function (event) {
+        var dot = event.target.closest("[data-hero-dot]");
+        if (!dot) return;
+        setIndex(Number(dot.dataset.heroDot), true);
+        restartTimer();
+      });
+    }
 
-    if (nextButton) {
-      nextButton.addEventListener("click", function () {
+    function startDrag(event) {
+      if (event.button !== undefined && event.button !== 0) return;
+      if (event.target.closest("a, button, input, select, textarea")) return;
+      isDragging = true;
+      startX = event.clientX;
+      dragX = 0;
+      track.classList.add("is-dragging");
+      track.style.transition = "none";
+      window.clearInterval(timer);
+      if (carousel.setPointerCapture) {
+        carousel.setPointerCapture(event.pointerId);
+      }
+    }
+
+    function moveDrag(event) {
+      if (!isDragging) return;
+      dragX = event.clientX - startX;
+      transformWithOffset(dragX);
+    }
+
+    function endDrag() {
+      if (!isDragging) return;
+      isDragging = false;
+      track.classList.remove("is-dragging");
+      track.style.transition = "";
+
+      var threshold = Math.min(120, carousel.clientWidth * 0.12);
+      if (dragX <= -threshold) {
         nextSlide();
-        restartTimer();
-      });
+      } else if (dragX >= threshold) {
+        previousSlide();
+      } else {
+        setIndex(index, true);
+      }
+      dragX = 0;
+      restartTimer();
     }
 
-    if (prevButton) {
-      prevButton.addEventListener("click", function () {
-        previousSlide();
-        restartTimer();
-      });
-    }
+    carousel.addEventListener("pointerdown", startDrag);
+    carousel.addEventListener("pointermove", moveDrag);
+    carousel.addEventListener("pointerup", endDrag);
+    carousel.addEventListener("pointercancel", endDrag);
 
     carousel.addEventListener("mouseenter", function () {
       window.clearInterval(timer);
     });
 
-    carousel.addEventListener("mouseleave", restartTimer);
+    carousel.addEventListener("mouseleave", function () {
+      if (!isDragging) restartTimer();
+    });
+    updateDots();
     restartTimer();
   }
 
