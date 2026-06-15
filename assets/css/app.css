@@ -522,6 +522,51 @@ button {
   min-height: 154px;
 }
 
+.category-carousel {
+  position: relative;
+  overflow: hidden;
+  margin: 0 calc((100vw - 100%) / -2);
+  padding: 0 calc((100vw - 100%) / 2);
+}
+
+.category-carousel::before,
+.category-carousel::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: min(120px, 10vw);
+  pointer-events: none;
+  content: "";
+}
+
+.category-carousel::before {
+  left: 0;
+  background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.category-carousel::after {
+  right: 0;
+  background: linear-gradient(270deg, #fff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.category-carousel-track {
+  display: flex;
+  width: max-content;
+  gap: 18px;
+  animation: category-scroll 28s linear infinite;
+  will-change: transform;
+}
+
+.category-carousel:hover .category-carousel-track,
+.category-carousel:focus-within .category-carousel-track {
+  animation-play-state: paused;
+}
+
+.category-carousel .category-card {
+  flex: 0 0 clamp(320px, 31vw, 380px);
+}
+
 .category-card-button {
   width: 100%;
   text-align: left;
@@ -551,6 +596,22 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+@keyframes category-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 9px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-carousel-track {
+    animation: none;
+  }
 }
 
 .product-browser {

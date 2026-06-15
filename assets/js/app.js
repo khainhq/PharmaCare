@@ -240,7 +240,7 @@
   function renderLanding(data) {
     var categoryGrid = qs("#categoryGrid");
     if (categoryGrid) {
-      categoryGrid.innerHTML = data.categories.map(function (category) {
+      var cards = data.categories.map(function (category) {
         return '<button class="category-card category-card-button" type="button" data-category-filter="' + escapeHtml(category.name) + '">' +
           (category.image ? '<div class="category-image"><img src="' + asset(category.image) + '" alt="' + escapeHtml(category.name) + '" loading="lazy"></div>' : '<span class="feature-icon">' + icon("box") + '</span>') +
           '<h3>' + escapeHtml(category.name) + '</h3>' +
@@ -250,6 +250,7 @@
           }).join("") + '</div>' +
           '</button>';
       }).join("");
+      categoryGrid.innerHTML = '<div class="category-carousel-track">' + cards + cards + '</div>';
     }
 
   }
