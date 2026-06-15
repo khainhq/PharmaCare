@@ -252,13 +252,6 @@
       }).join("");
     }
 
-    var landingStats = qs("#landingStats");
-    if (landingStats) {
-      landingStats.innerHTML =
-        '<article class="metric-card"><span class="feature-icon">' + icon("box") + '</span><h3>' + number(data.products.length) + ' mặt hàng</h3><p>Dữ liệu sản phẩm được tổ chức theo danh mục nghiệp vụ.</p></article>' +
-        '<article class="metric-card"><span class="feature-icon">' + icon("file") + '</span><h3>' + number(data.invoices.length) + ' hóa đơn</h3><p>Theo dõi kiểm tra, hủy, thống kê và in hóa đơn tại quầy.</p></article>' +
-        '<article class="metric-card"><span class="feature-icon">' + icon("alert") + '</span><h3>' + countWarnings(data.products) + ' cảnh báo</h3><p>Theo dõi tồn kho thấp, hết hàng và hạn sử dụng gần tới.</p></article>';
-    }
   }
 
   function unique(list) {
