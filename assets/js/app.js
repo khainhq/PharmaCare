@@ -260,13 +260,28 @@
     });
   }
 
+  function isAllLabel(value) {
+    var normalized = String(value || "").trim().toLowerCase();
+    var ascii = normalized.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return !normalized || ascii === "tat ca" || /^t.t c.$/.test(normalized);
+  }
+
+  function productCategoryLabel(product) {
+    var labels = [product.childCategory, product.subcategory, product.category];
+    for (var index = 0; index < labels.length; index += 1) {
+      if (!isAllLabel(labels[index])) return labels[index];
+    }
+    return product.category || "";
+  }
+
   function productDetails(product) {
+    var categoryLabel = productCategoryLabel(product);
     return [
       ["Số đăng ký", product.registrationNumber],
       ["Thành phần", product.ingredients],
       ["Dạng bào chế", product.dosageForm],
       ["Quy cách", product.specification],
-      ["Danh mục", product.childCategory || product.subcategory || product.category],
+      ["Danh mục", categoryLabel],
       ["Nhà sản xuất", product.manufacturer || product.brand || product.supplier],
       ["Nước sản xuất", product.origin],
       ["Hạn sử dụng", product.shelfLife || (product.expiry ? product.expiry.split("-").reverse().join("/") : "")]
@@ -280,10 +295,11 @@
   function productListCard(product) {
     var listedPrice = product.listedPrice && product.listedPrice > product.price ? '<span class="old-price">' + money(product.listedPrice) + '</span>' : "";
     var unit = product.unit ? " / " + product.unit.toLowerCase() : "";
+    var groupLabel = productCategoryLabel(product);
     return '<article class="product-list-card" data-product-card data-text="' + escapeHtml([product.name, product.code, product.category, product.subcategory, product.childCategory, product.active].join(" ").toLowerCase()) + '">' +
       '<div class="product-list-image"><img src="' + asset(product.image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy"></div>' +
       '<div class="product-list-body">' +
-        '<span class="tag">' + escapeHtml(product.subcategory || product.category) + '</span>' +
+        '<span class="tag">' + escapeHtml(groupLabel) + '</span>' +
         '<h3>' + escapeHtml(product.name) + '</h3>' +
         '<p>' + escapeHtml(product.active || product.ingredients || product.specification || "") + '</p>' +
         '<details class="product-info-toggle"><summary>Thông tin sản phẩm</summary><dl class="product-detail-list">' + productDetails(product) + '</dl></details>' +
@@ -299,10 +315,11 @@
     var loadMore = qs("#loadMoreProducts");
     if (!grid || !categorySelect || !subcategoryPills || !loadMore) return;
 
+    var allSubcategory = "Tất cả";
     var categories = unique(data.categories.map(function (category) { return category.name; }));
     var state = {
       category: categories[0] || "",
-      subcategory: "Tất cả",
+      subcategory: allSubcategory,
       visible: 8
     };
 
@@ -314,7 +331,7 @@
 
     function filteredProducts() {
       return categoryProducts().filter(function (product) {
-        return state.subcategory === "Tất cả" || product.subcategory === state.subcategory || product.childCategory === state.subcategory;
+        return state.subcategory === allSubcategory || product.subcategory === state.subcategory || product.childCategory === state.subcategory;
       });
     }
 
@@ -326,11 +343,13 @@
     }
 
     function renderSubcategories() {
-      var subcategories = ["Tất cả"].concat(unique(categoryProducts().map(function (product) {
+      var subcategories = [allSubcategory].concat(unique(categoryProducts().map(function (product) {
         return product.subcategory || product.category;
+      }).filter(function (name) {
+        return !isAllLabel(name);
       })));
       if (subcategories.indexOf(state.subcategory) === -1) {
-        state.subcategory = "Tất cả";
+        state.subcategory = allSubcategory;
       }
       subcategoryPills.innerHTML = subcategories.map(function (name) {
         return '<button class="filter-pill' + (name === state.subcategory ? ' is-active' : '') + '" type="button" data-subcategory-filter="' + escapeHtml(name) + '">' + escapeHtml(name) + '</button>';
@@ -342,7 +361,7 @@
       var visibleProducts = products.slice(0, state.visible);
       var title = qs("#productBrowserTitle");
       var count = qs("#productBrowserCount");
-      if (title) title.textContent = state.category + (state.subcategory !== "Tất cả" ? " - " + state.subcategory : "");
+      if (title) title.textContent = state.category + (state.subcategory !== allSubcategory ? " - " + state.subcategory : "");
       if (count) count.textContent = number(products.length) + " sản phẩm";
       grid.innerHTML = visibleProducts.map(productListCard).join("") || emptyState("Chưa có sản phẩm trong nhóm này.");
       loadMore.hidden = state.visible >= products.length;
@@ -356,7 +375,7 @@
     categorySelect.value = state.category;
     categorySelect.addEventListener("change", function () {
       state.category = categorySelect.value;
-      state.subcategory = "Tất cả";
+      state.subcategory = allSubcategory;
       state.visible = 8;
       render();
     });
@@ -370,7 +389,7 @@
     qsa("[data-category-filter]").forEach(function (button) {
       button.addEventListener("click", function () {
         state.category = button.dataset.categoryFilter;
-        state.subcategory = "Tất cả";
+        state.subcategory = allSubcategory;
         state.visible = 8;
         categorySelect.value = state.category;
         render();
