@@ -730,8 +730,12 @@
       }).join("");
     }
 
+    function normalizeIndex(value) {
+      return ((value % slideCount) + slideCount) % slideCount;
+    }
+
     function currentDotIndex() {
-      return index === slideCount ? 0 : index;
+      return normalizeIndex(index);
     }
 
     function updateDots() {
@@ -759,11 +763,19 @@
     }
 
     function nextSlide() {
+      if (index >= slideCount) {
+        setIndex(0, false);
+        window.requestAnimationFrame(function () {
+          setIndex(1, true);
+        });
+        return;
+      }
+
       setIndex(index + 1, true);
     }
 
     function previousSlide() {
-      if (index === 0) {
+      if (index <= 0 || index > slideCount) {
         setIndex(slideCount, false);
         window.requestAnimationFrame(function () {
           window.requestAnimationFrame(function () {
@@ -783,7 +795,7 @@
     }
 
     track.addEventListener("transitionend", function () {
-      if (index === slideCount) {
+      if (index >= slideCount) {
         setIndex(0, false);
       }
       updateDots();
@@ -793,7 +805,7 @@
       dotsContainer.addEventListener("click", function (event) {
         var dot = event.target.closest("[data-hero-dot]");
         if (!dot) return;
-        setIndex(Number(dot.dataset.heroDot), true);
+        setIndex(normalizeIndex(Number(dot.dataset.heroDot)), true);
         restartTimer();
       });
     }
@@ -830,7 +842,7 @@
       } else if (dragX >= threshold) {
         previousSlide();
       } else {
-        setIndex(index, true);
+        setIndex(normalizeIndex(index), true);
       }
       dragX = 0;
       restartTimer();
@@ -847,6 +859,12 @@
 
     carousel.addEventListener("mouseleave", function () {
       if (!isDragging) restartTimer();
+    });
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible") {
+        setIndex(normalizeIndex(index), false);
+        restartTimer();
+      }
     });
     updateDots();
     restartTimer();
