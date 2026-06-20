@@ -1454,11 +1454,15 @@ button {
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+  flex: 1 1 620px;
+  min-width: min(100%, 320px);
 }
 
 .search-box {
   position: relative;
-  width: min(340px, 100%);
+  flex: 1 1 480px;
+  width: min(560px, 100%);
+  min-width: min(100%, 320px);
 }
 
 .search-box input {
