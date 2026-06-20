@@ -297,7 +297,7 @@
     var listedPrice = product.listedPrice && product.listedPrice > product.price ? '<span class="old-price">' + money(product.listedPrice) + '</span>' : "";
     var unit = product.unit ? " / " + product.unit.toLowerCase() : "";
     var groupLabel = productCategoryLabel(product);
-    return '<article class="product-list-card" data-product-card data-text="' + escapeHtml([product.name, product.code, product.category, product.subcategory, product.childCategory, product.active].join(" ").toLowerCase()) + '">' +
+    return '<article class="product-list-card" data-product-card data-stock-status="' + escapeHtml(stockStatus(product)) + '" data-text="' + escapeHtml([product.name, product.code, product.category, product.subcategory, product.childCategory, product.active, product.supplier].join(" ").toLowerCase()) + '">' +
       '<div class="product-list-image"><img src="' + asset(product.image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy"></div>' +
       '<div class="product-list-body">' +
         '<span class="tag">' + escapeHtml(groupLabel) + '</span>' +
@@ -368,6 +368,7 @@
       loadMore.hidden = state.visible >= products.length;
       renderCategoryCards();
       renderSubcategories();
+      applyCatalogFilters();
     }
 
     categorySelect.innerHTML = categories.map(function (name) {
@@ -457,7 +458,7 @@
   function productRow(product) {
     var stock = stockStatus(product);
     var expiry = expiryStatus(product);
-    return '<tr>' +
+    return '<tr data-stock-status="' + escapeHtml(stock) + '" data-text="' + escapeHtml([product.name, product.code, product.category, product.subcategory, product.childCategory, product.active, product.supplier].join(" ").toLowerCase()) + '">' +
       '<td><div class="table-product"><img src="' + asset(product.image) + '" alt="" loading="lazy"><div><strong>' + escapeHtml(product.name) + '</strong><span>' + escapeHtml(product.code + ' · ' + (product.active || product.subcategory || "")) + '</span></div></div></td>' +
       '<td>' + escapeHtml(product.category) + '</td>' +
       '<td>' + escapeHtml(product.supplier) + '</td>' +
@@ -475,7 +476,7 @@
     target.innerHTML = '<table class="data-table">' +
       '<thead><tr><th>Sản phẩm</th><th>Nhóm</th><th>Nhà cung cấp</th><th>Giá bán</th><th>Tồn</th><th>Tồn kho</th><th>Hạn dùng</th></tr></thead>' +
       '<tbody data-filter-body>' + rows + '</tbody></table>';
-    bindTableFilter("#productSearch", "#productTable tbody tr");
+    bindCatalogFilters();
   }
 
   function renderInventory(data) {
@@ -750,6 +751,41 @@
     if (input) input.addEventListener("input", applyFilter);
     if (categoryFilter) categoryFilter.addEventListener("change", applyFilter);
     applyFilter();
+  }
+
+  function catalogFilterState() {
+    var input = qs("#productSearch");
+    var statusFilter = qs("#productStatusFilter");
+    return {
+      keyword: input ? input.value.trim().toLowerCase() : "",
+      status: statusFilter ? statusFilter.value : ""
+    };
+  }
+
+  function applyCatalogFilters() {
+    var state = catalogFilterState();
+    qsa("#productTable tbody tr, #landingProductGrid [data-product-card]").forEach(function (item) {
+      var text = item.dataset.text || item.textContent.toLowerCase();
+      var status = item.dataset.stockStatus || "";
+      var matchText = !state.keyword || text.indexOf(state.keyword) !== -1;
+      var matchStatus = !state.status || status === state.status;
+      item.style.display = matchText && matchStatus ? "" : "none";
+    });
+  }
+
+  function bindCatalogFilters() {
+    var input = qs("#productSearch");
+    var statusFilter = qs("#productStatusFilter");
+    if (!input && !statusFilter) return;
+    if (input && input.dataset.filterBound !== "true") {
+      input.dataset.filterBound = "true";
+      input.addEventListener("input", applyCatalogFilters);
+    }
+    if (statusFilter && statusFilter.dataset.filterBound !== "true") {
+      statusFilter.dataset.filterBound = "true";
+      statusFilter.addEventListener("change", applyCatalogFilters);
+    }
+    applyCatalogFilters();
   }
 
   function bindTableFilter(inputSelector, rowSelector) {

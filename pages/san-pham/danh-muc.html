@@ -28,11 +28,11 @@
               <span data-icon="search"></span>
               <input id="productSearch" class="form-control" type="search" placeholder="Tìm sản phẩm, hoạt chất, nhà cung cấp">
             </div>
-            <select class="form-select" style="width:210px" aria-label="Lọc theo trạng thái">
-              <option>Tất cả trạng thái</option>
-              <option>Còn hàng</option>
-              <option>Sắp hết</option>
-              <option>Hết hàng</option>
+            <select id="productStatusFilter" class="form-select" style="width:210px" aria-label="Lọc theo trạng thái">
+              <option value="">Tất cả trạng thái</option>
+              <option value="Còn hàng">Còn hàng</option>
+              <option value="Sắp hết">Sắp hết</option>
+              <option value="Hết hàng">Hết hàng</option>
             </select>
           </div>
           <button class="btn btn-light" type="button" data-toast="Bộ lọc nâng cao đã được đặt chỗ trong giao diện.">Lọc nâng cao</button>
