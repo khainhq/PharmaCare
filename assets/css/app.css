@@ -1565,6 +1565,10 @@ button {
   gap: 18px;
 }
 
+.app-body[data-roles="admin"] .dash-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .chart-bars {
   display: grid;
   align-items: end;
@@ -1773,6 +1777,10 @@ button {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
+}
+
+.app-body .two-col {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .policy-list {
