@@ -1476,24 +1476,24 @@ button {
 }
 
 .table-wrap {
-  overflow-x: auto;
+  overflow-x: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
 
 .data-table {
   width: 100%;
-  min-width: 760px;
   border-collapse: collapse;
   background: #fff;
 }
 
 .data-table th,
 .data-table td {
-  padding: 12px 14px;
+  padding: 11px 12px;
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: middle;
+  overflow-wrap: break-word;
 }
 
 .data-table th {
@@ -1511,7 +1511,7 @@ button {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-width: 260px;
+  min-width: min(220px, 100%);
 }
 
 .table-product img {
