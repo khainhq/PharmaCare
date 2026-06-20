@@ -19,7 +19,7 @@
   --surface-soft: #f7fbff;
   --shadow: 0 16px 44px rgba(8, 60, 116, 0.12);
   --radius: 8px;
-  --sidebar: 252px;
+  --sidebar: 216px;
   --font-family: "Inter", "Inter Fallback", sans-serif;
   --font-ui: var(--font-family);
   --font-display: var(--font-family);
@@ -1237,15 +1237,15 @@ button {
   display: flex;
   min-height: 100%;
   flex-direction: column;
-  padding: 16px 12px;
+  padding: 14px 10px;
 }
 
 .sidebar .brand {
-  padding: 8px 8px 16px;
+  padding: 8px 8px 14px;
 }
 
 .sidebar .brand img {
-  width: 168px;
+  width: 150px;
 }
 
 .side-section-title {
@@ -1263,13 +1263,14 @@ button {
 
 .side-link {
   display: grid;
-  grid-template-columns: 34px 1fr;
-  gap: 10px;
+  grid-template-columns: 32px 1fr;
+  gap: 9px;
   align-items: center;
-  min-height: 44px;
-  padding: 5px 10px;
+  min-height: 42px;
+  padding: 5px 9px;
   color: #34526c;
   border-radius: var(--radius);
+  font-size: 14px;
   font-weight: 800;
 }
 
@@ -1282,8 +1283,8 @@ button {
 }
 
 .side-link .nav-icon {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   color: var(--blue-800);
   background: #e8f7ff;
 }
