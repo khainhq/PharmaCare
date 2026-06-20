@@ -516,15 +516,69 @@
   function renderProductsGrid(data) {
     var target = qs("#productGrid");
     if (!target) return;
+    var modal = qs("#productModal");
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "productModal";
+      modal.className = "product-modal";
+      modal.setAttribute("aria-hidden", "true");
+      document.body.appendChild(modal);
+    }
+
+    function productInfo(product) {
+      return product.ingredients || product.active || product.specification || product.subcategory || "Chưa có thông tin chi tiết.";
+    }
+
+    function closeProductModal() {
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+      modal.innerHTML = "";
+    }
+
+    function openProductModal(product) {
+      modal.innerHTML =
+        '<div class="product-modal-backdrop" data-product-modal-close></div>' +
+        '<section class="product-modal-panel" role="dialog" aria-modal="true" aria-label="Chi tiết sản phẩm">' +
+        '<button class="btn btn-light btn-icon product-modal-close" type="button" data-product-modal-close aria-label="Đóng">' + icon("minus") + '</button>' +
+        '<div class="product-modal-media"><img src="' + asset(product.image) + '" alt="' + escapeHtml(product.name) + '"></div>' +
+        '<div class="product-modal-content">' +
+        '<span class="tag">' + escapeHtml(product.code + ' · ' + product.category) + '</span>' +
+        '<h2>' + escapeHtml(product.name) + '</h2>' +
+        '<p>' + escapeHtml(productInfo(product)) + '</p>' +
+        '<div class="product-modal-actions">' +
+        '<strong class="price">' + money(product.price) + '</strong>' +
+        '<button class="btn btn-primary" type="button" data-add-cart="' + escapeHtml(product.code) + '">' + icon("plus") + '<span>Thêm</span></button>' +
+        '</div>' +
+        '</div>' +
+        '</section>';
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
     target.innerHTML = data.products.map(function (product) {
       return '<article class="product-card" data-product-card data-text="' + escapeHtml([product.name, product.code, product.category, product.subcategory, product.active].join(" ").toLowerCase()) + '">' +
+        '<button class="product-image-button" type="button" data-product-detail="' + escapeHtml(product.code) + '" aria-label="Xem chi tiết ' + escapeHtml(product.name) + '">' +
         '<img src="' + asset(product.image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy">' +
+        '</button>' +
         '<h3>' + escapeHtml(product.name) + '</h3>' +
         '<p>' + escapeHtml(product.code + ' · ' + product.category) + '</p>' +
-        '<p>Thông tin: ' + escapeHtml(product.ingredients || product.active || product.specification || product.subcategory) + '</p>' +
-        '<footer><span class="price">' + money(product.price) + '</span><button class="btn btn-primary" type="button" data-add-cart="' + escapeHtml(product.code) + '">' + icon("plus") + '<span>Thêm</span></button></footer>' +
+        '<footer><span class="price">' + money(product.price) + '</span><span class="tag">Chi tiết</span></footer>' +
         '</article>';
     }).join("");
+    target.addEventListener("click", function (event) {
+      var detailButton = event.target.closest("[data-product-detail]");
+      if (!detailButton) return;
+      var product = data.products.find(function (item) { return item.code === detailButton.dataset.productDetail; });
+      if (product) openProductModal(product);
+    });
+    modal.addEventListener("click", function (event) {
+      if (event.target.closest("[data-product-modal-close]") || event.target.closest("[data-add-cart]")) {
+        closeProductModal();
+      }
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && modal.classList.contains("show")) closeProductModal();
+    });
     bindProductFilter();
   }
 
