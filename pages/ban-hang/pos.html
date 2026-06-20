@@ -30,12 +30,13 @@
                   <span data-icon="search"></span>
                   <input id="posSearch" class="form-control" type="search" placeholder="Tìm theo tên, mã, hoạt chất, nhóm thuốc">
                 </div>
-                <select class="form-select" style="width:190px" aria-label="Lọc nhóm">
-                  <option>Tất cả nhóm</option>
-                  <option>Thuốc</option>
-                  <option>Thực phẩm chức năng</option>
-                  <option>Dược mỹ phẩm</option>
-                  <option>Thiết bị y tế</option>
+                <select id="posCategoryFilter" class="form-select" style="width:190px" aria-label="Lọc nhóm">
+                  <option value="">Tất cả nhóm</option>
+                  <option value="Thuốc">Thuốc</option>
+                  <option value="Thực phẩm chức năng">Thực phẩm chức năng</option>
+                  <option value="Dược mỹ phẩm">Dược mỹ phẩm</option>
+                  <option value="Chăm sóc cá nhân">Chăm sóc cá nhân</option>
+                  <option value="Thiết bị y tế">Thiết bị y tế</option>
                 </select>
               </div>
               <span class="tag">Dữ liệu bán hàng</span>
@@ -69,6 +70,6 @@
   </div>
 
   <script>window.PHARMA_BASE = "../../";</script>
-  <script src="../../assets/js/app.js?v=20260620-posdetail1"></script>
+  <script src="../../assets/js/app.js?v=20260620-posfilter1"></script>
 </body>
 </html>

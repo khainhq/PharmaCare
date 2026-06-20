@@ -555,8 +555,17 @@
       modal.setAttribute("aria-hidden", "false");
     }
 
+    var categoryFilter = qs("#posCategoryFilter");
+    if (categoryFilter) {
+      categoryFilter.innerHTML = '<option value="">Tất cả nhóm</option>' + unique(data.products.map(function (product) {
+        return product.category;
+      })).map(function (category) {
+        return '<option value="' + escapeHtml(category) + '">' + escapeHtml(category) + '</option>';
+      }).join("");
+    }
+
     target.innerHTML = data.products.map(function (product) {
-      return '<article class="product-card" data-product-card data-text="' + escapeHtml([product.name, product.code, product.category, product.subcategory, product.active].join(" ").toLowerCase()) + '">' +
+      return '<article class="product-card" data-product-card data-category="' + escapeHtml(product.category) + '" data-text="' + escapeHtml([product.name, product.code, product.category, product.subcategory, product.active].join(" ").toLowerCase()) + '">' +
         '<button class="product-image-button" type="button" data-product-detail="' + escapeHtml(product.code) + '" aria-label="Xem chi tiết ' + escapeHtml(product.name) + '">' +
         '<img src="' + asset(product.image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy">' +
         '</button>' +
@@ -725,13 +734,22 @@
 
   function bindProductFilter() {
     var input = qs("#posSearch") || qs("#catalogSearch");
-    if (!input) return;
-    input.addEventListener("input", function () {
-      var keyword = input.value.trim().toLowerCase();
+    var categoryFilter = qs("#posCategoryFilter");
+    if (!input && !categoryFilter) return;
+
+    function applyFilter() {
+      var keyword = input ? input.value.trim().toLowerCase() : "";
+      var category = categoryFilter ? categoryFilter.value : "";
       qsa("[data-product-card]").forEach(function (card) {
-        card.style.display = card.dataset.text.indexOf(keyword) === -1 ? "none" : "";
+        var matchText = !keyword || card.dataset.text.indexOf(keyword) !== -1;
+        var matchCategory = !category || card.dataset.category === category;
+        card.style.display = matchText && matchCategory ? "" : "none";
       });
-    });
+    }
+
+    if (input) input.addEventListener("input", applyFilter);
+    if (categoryFilter) categoryFilter.addEventListener("change", applyFilter);
+    applyFilter();
   }
 
   function bindTableFilter(inputSelector, rowSelector) {
