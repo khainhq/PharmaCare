@@ -174,7 +174,15 @@
 
   function currentActorName() {
     var session = getSession();
-    return (session && session.name) || "Nhân sự nhà thuốc";
+    if (!session) return "Nhân sự nhà thuốc";
+    return displayNameForSession(session) || "Nhân sự nhà thuốc";
+  }
+
+  function displayNameForSession(session) {
+    if (!session) return "";
+    var name = String(session.name || "").trim();
+    if (!name || /[?�]/.test(name)) return roles[session.role] || "";
+    return name;
   }
 
   function hydrateOperationalData(data) {
@@ -302,7 +310,7 @@
     html.push(
       '</nav>',
       '<div class="sidebar-footer">',
-      '<div class="role-card"><strong>' + (session.name || roles[role]) + '</strong><span>' + roles[role] + '</span></div>',
+      '<div class="role-card"><strong>' + displayNameForSession(session) + '</strong><span>' + roles[role] + '</span></div>',
       '</div>',
       '</div>'
     );
