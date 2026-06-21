@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Danh mục sản phẩm - PharmaCare</title>
   <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../../assets/css/app.css?v=20260620-searchwide1">
+  <link rel="stylesheet" href="../../assets/css/app.css?v=20260621-nghiepvu1">
 </head>
 <body class="app-body" data-requires-auth="true" data-roles="banthuoc,quanly,admin" data-nav="san-pham" data-title="Danh mục sản phẩm">
   <div id="overlay" class="overlay"></div>
@@ -19,7 +19,7 @@
             <h1>Danh mục sản phẩm</h1>
             <p>Tra cứu thuốc và sản phẩm theo mã, tên, hoạt chất, nhóm hàng, nhà cung cấp, giá bán, tồn kho và hạn sử dụng.</p>
           </div>
-          <button class="btn btn-primary" type="button" data-toast="Thêm sản phẩm sẽ được hoàn thiện ở giai đoạn sau.">Thêm sản phẩm</button>
+          <button id="addProductButton" class="btn btn-primary" type="button">Thêm sản phẩm</button>
         </section>
 
         <section class="toolbar" aria-label="Bộ lọc sản phẩm">
@@ -34,8 +34,11 @@
               <option value="Sắp hết">Sắp hết</option>
               <option value="Hết hàng">Hết hàng</option>
             </select>
+            <select id="productCategoryFilter" class="form-select" style="width:230px" aria-label="Lọc theo nhóm sản phẩm">
+              <option value="">Tất cả nhóm</option>
+            </select>
           </div>
-          <button class="btn btn-light" type="button" data-toast="Bộ lọc nâng cao đã được đặt chỗ trong giao diện.">Lọc nâng cao</button>
+          <button id="resetProductFilters" class="btn btn-light" type="button">Đặt lại lọc</button>
         </section>
 
         <section class="panel product-browser" id="productBrowser">
@@ -59,6 +62,6 @@
   </div>
 
   <script>window.PHARMA_BASE = "../../";</script>
-  <script src="../../assets/js/app.js?v=20260620-productfilter1"></script>
+  <script src="../../assets/js/app.js?v=20260621-nghiepvu1"></script>
 </body>
 </html>

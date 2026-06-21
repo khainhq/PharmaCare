@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nhân viên - PharmaCare</title>
   <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../../assets/css/app.css?v=20260620-searchwide1">
+  <link rel="stylesheet" href="../../assets/css/app.css?v=20260621-nghiepvu1">
 </head>
 <body class="app-body" data-requires-auth="true" data-roles="quanly,admin" data-nav="nhan-vien" data-title="Quản lý nhân viên">
   <div id="overlay" class="overlay"></div>
@@ -19,7 +19,7 @@
             <h1>Quản lý nhân viên</h1>
             <p>Xem danh sách, xem chi tiết, thêm nhân viên, sửa thông tin, cập nhật tài khoản và trạng thái làm việc.</p>
           </div>
-          <button class="btn btn-primary" type="button" data-toast="Thêm nhân viên sẽ được hoàn thiện ở giai đoạn sau.">Thêm nhân viên</button>
+          <button id="addEmployeeButton" class="btn btn-primary" type="button">Thêm nhân viên</button>
         </section>
 
         <section class="toolbar" aria-label="Bộ lọc nhân viên">
@@ -28,12 +28,12 @@
               <span data-icon="search"></span>
               <input id="employeeSearch" class="form-control" type="search" placeholder="Tìm mã, họ tên, vai trò, số điện thoại">
             </div>
-            <select class="form-select" style="width:210px" aria-label="Lọc vai trò">
-              <option>Tất cả vai trò</option>
-              <option>Quản lý</option>
-              <option>Dược sĩ</option>
-              <option>Nhân viên bán thuốc</option>
-              <option>Kho</option>
+            <select id="employeeRoleFilter" class="form-select" style="width:210px" aria-label="Lọc vai trò">
+              <option value="">Tất cả vai trò</option>
+              <option value="Quản lý">Quản lý</option>
+              <option value="Dược sĩ">Dược sĩ</option>
+              <option value="Nhân viên bán thuốc">Nhân viên bán thuốc</option>
+              <option value="Kho">Kho</option>
             </select>
           </div>
         </section>
@@ -44,6 +44,6 @@
   </div>
 
   <script>window.PHARMA_BASE = "../../";</script>
-  <script src="../../assets/js/app.js?v=20260620-productfilter1"></script>
+  <script src="../../assets/js/app.js?v=20260621-nghiepvu1"></script>
 </body>
 </html>
