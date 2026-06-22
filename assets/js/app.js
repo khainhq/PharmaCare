@@ -1397,36 +1397,133 @@
     });
   }
 
+  function activeInvoices(data) {
+    return (data.invoices || []).filter(function (invoice) {
+      return invoice.status !== "Đã hủy";
+    });
+  }
+
+  function invoiceStatusSummary(data) {
+    return (data.invoices || []).reduce(function (summary, invoice) {
+      summary[invoice.status] = (summary[invoice.status] || 0) + 1;
+      return summary;
+    }, {});
+  }
+
+  function topSoldProducts(data) {
+    var byCode = {};
+    activeInvoices(data).forEach(function (invoice) {
+      (invoice.items || []).forEach(function (item) {
+        if (!byCode[item.code]) {
+          byCode[item.code] = {
+            code: item.code,
+            name: item.name,
+            qty: 0,
+            total: 0
+          };
+        }
+        byCode[item.code].qty += Number(item.qty || 0);
+        byCode[item.code].total += Number(item.total || 0);
+      });
+    });
+    var rows = Object.keys(byCode).map(function (code) { return byCode[code]; })
+      .sort(function (a, b) { return b.qty - a.qty || b.total - a.total; });
+
+    if (rows.length) return rows.slice(0, 5);
+
+    return data.products.slice()
+      .sort(function (a, b) { return b.stock - a.stock; })
+      .slice(0, 5)
+      .map(function (product) {
+        return {
+          code: product.code,
+          name: product.name,
+          qty: 0,
+          total: 0,
+          fallback: product.category + " · Tồn " + number(product.stock)
+        };
+      });
+  }
+
+  function inventoryRiskProducts(data) {
+    return data.products.filter(function (product) {
+      return product.stock <= 15 || expiryStatus(product) !== "Còn hạn";
+    }).sort(function (a, b) {
+      return a.stock - b.stock;
+    }).slice(0, 5);
+  }
+
+  function exportReport(data) {
+    var invoices = activeInvoices(data);
+    var invoiceRevenue = invoices.reduce(function (sum, invoice) { return sum + Number(invoice.total || 0); }, 0);
+    var income = data.finance.filter(function (item) { return item.type === "Thu"; }).reduce(function (sum, item) { return sum + Number(item.amount || 0); }, 0);
+    var expense = data.finance.filter(function (item) { return item.type === "Chi"; }).reduce(function (sum, item) { return sum + Number(item.amount || 0); }, 0);
+    var status = invoiceStatusSummary(data);
+    var lines = [
+      ["Nhóm", "Chỉ số", "Giá trị"],
+      ["Tài chính", "Doanh thu hóa đơn hợp lệ", invoiceRevenue],
+      ["Tài chính", "Tổng thu", income],
+      ["Tài chính", "Tổng chi", expense],
+      ["Tài chính", "Chênh lệch", income - expense],
+      ["Hóa đơn", "Đã thanh toán", status["Đã thanh toán"] || 0],
+      ["Hóa đơn", "Chờ kiểm tra", status["Chờ kiểm tra"] || 0],
+      ["Hóa đơn", "Đã hủy", status["Đã hủy"] || 0],
+      ["Kho", "Sản phẩm cần chú ý", countWarnings(data.products)],
+      ["Kho", "Phiếu nhập xuất", (data.stockMovements || []).length]
+    ];
+    topSoldProducts(data).forEach(function (item) {
+      lines.push(["Sản phẩm", item.code + " - " + item.name, item.qty ? item.qty + " sản phẩm" : item.fallback]);
+    });
+    downloadTextFile("pharmacare-bao-cao-van-hanh.csv", "\uFEFF" + lines.map(function (row) {
+      return row.map(csvCell).join(",");
+    }).join("\n"), "text/csv;charset=utf-8");
+    showToast("Đã xuất báo cáo vận hành ra file CSV.");
+  }
+
   function renderReport(data) {
     var target = qs("#reportPanel");
     if (!target) return;
-    var best = data.products.slice().sort(function (a, b) { return b.stock - a.stock; }).slice(0, 5);
+    var invoices = activeInvoices(data);
+    var invoiceRevenue = invoices.reduce(function (sum, invoice) { return sum + Number(invoice.total || 0); }, 0);
     var income = data.finance.filter(function (item) { return item.type === "Thu"; }).reduce(function (sum, item) { return sum + Number(item.amount || 0); }, 0);
     var expense = data.finance.filter(function (item) { return item.type === "Chi"; }).reduce(function (sum, item) { return sum + Number(item.amount || 0); }, 0);
     var net = income - expense;
-    var invoiceCount = data.invoices.filter(function (invoice) { return invoice.status !== "Đã hủy"; }).length;
+    var status = invoiceStatusSummary(data);
+    var topProducts = topSoldProducts(data);
+    var risks = inventoryRiskProducts(data);
+    var movements = (data.stockMovements || []).slice(0, 4);
+    var chartValues = [invoiceRevenue, income, expense, Math.max(net, 0), countWarnings(data.products) * 100000, invoices.length * 120000, movements.length * 180000];
     target.innerHTML =
       '<section class="stat-grid report-stat-grid">' +
-      '<article class="stat-card"><span>Tổng thu</span><strong>' + money(income) + '</strong><small>Từ hóa đơn và phiếu thu</small></article>' +
-      '<article class="stat-card"><span>Tổng chi</span><strong>' + money(expense) + '</strong><small>Phiếu chi vận hành</small></article>' +
-      '<article class="stat-card"><span>Chênh lệch</span><strong>' + money(net) + '</strong><small>Dòng tiền tạm tính</small></article>' +
-      '<article class="stat-card"><span>Hóa đơn hợp lệ</span><strong>' + number(invoiceCount) + '</strong><small>Không tính hóa đơn hủy</small></article>' +
+      '<article class="stat-card"><span>Doanh thu hóa đơn</span><strong>' + money(invoiceRevenue) + '</strong><small>Không tính hóa đơn hủy</small></article>' +
+      '<article class="stat-card"><span>Dòng tiền ròng</span><strong>' + money(net) + '</strong><small>Thu ' + money(income) + ' · Chi ' + money(expense) + '</small></article>' +
+      '<article class="stat-card"><span>Hóa đơn hợp lệ</span><strong>' + number(invoices.length) + '</strong><small>' + number(status["Chờ kiểm tra"] || 0) + ' hóa đơn chờ kiểm tra</small></article>' +
+      '<article class="stat-card"><span>Rủi ro kho</span><strong>' + number(countWarnings(data.products)) + '</strong><small>Sắp hết hàng hoặc cần kiểm tra hạn dùng</small></article>' +
       '</section>' +
-      '<div class="two-col">' +
-      '<div class="panel"><h3>Sản phẩm nổi bật</h3><div class="alert-list">' + best.map(function (product) {
-        return '<article class="alert-item"><span class="nav-icon">' + icon("box") + '</span><div><h4>' + product.name + '</h4><p>' + product.category + ' · Tồn ' + number(product.stock) + '</p></div><span class="status status-ok">Theo dõi</span></article>';
+      '<section class="report-layout">' +
+      '<div class="panel"><div class="panel-header"><h3>Hiệu quả bán hàng</h3><span class="tag">Theo hóa đơn</span></div><div class="report-list">' + topProducts.map(function (item, index) {
+        return '<article class="report-row"><span class="report-rank">' + (index + 1) + '</span><div><h4>' + escapeHtml(item.name) + '</h4><p>' + escapeHtml(item.code + (item.fallback ? ' · ' + item.fallback : ' · Đã bán ' + number(item.qty) + ' · ' + money(item.total))) + '</p></div><strong>' + (item.qty ? number(item.qty) : 'Theo dõi') + '</strong></article>';
       }).join("") + '</div></div>' +
-      '<div class="panel"><h3>Dòng tiền</h3><div class="chart-bars" style="min-height:230px">' + [income, expense, Math.max(net, 0), invoiceCount * 100000, countWarnings(data.products) * 120000, data.products.length * 5000, data.stockMovements.length * 100000].map(function (raw, index, list) {
+      '<div class="panel"><div class="panel-header"><h3>Dòng tiền vận hành</h3><span class="tag tag-success">CSV</span></div><div class="chart-bars report-chart">' + chartValues.map(function (raw, index, list) {
         var max = Math.max.apply(Math, list.concat([1]));
         var value = Math.max(12, Math.round(raw / max * 100));
-        return '<div class="bar"><span style="height:' + value + '%"></span><small>T' + (index + 1) + '</small></div>';
+        return '<div class="bar"><span style="height:' + value + '%"></span><small>' + ["HĐ", "Thu", "Chi", "Ròng", "Kho", "SL", "NX"][index] + '</small></div>';
       }).join("") + '</div></div>' +
-      '</div>';
+      '<div class="panel"><div class="panel-header"><h3>Trạng thái hóa đơn</h3><span class="tag">Kiểm soát</span></div><div class="report-meter-list">' +
+      ["Đã thanh toán", "Chờ kiểm tra", "Đã hủy"].map(function (name) {
+        var count = status[name] || 0;
+        var total = Math.max((data.invoices || []).length, 1);
+        return '<div class="report-meter"><div><span>' + name + '</span><strong>' + number(count) + '</strong></div><i style="width:' + Math.round(count / total * 100) + '%"></i></div>';
+      }).join("") + '</div></div>' +
+      '<div class="panel"><div class="panel-header"><h3>Rủi ro kho cần xử lý</h3><span class="tag tag-warning">Ưu tiên</span></div><div class="report-list">' + (risks.map(function (product) {
+        return '<article class="report-row"><span class="nav-icon">' + icon("alert") + '</span><div><h4>' + escapeHtml(product.name) + '</h4><p>' + escapeHtml(product.code + ' · ' + stockStatus(product) + ' · ' + expiryStatus(product)) + '</p></div><strong>' + number(product.stock) + '</strong></article>';
+      }).join("") || emptyState("Chưa có rủi ro kho cần xử lý.")) + '</div></div>' +
+      '</section>';
     var exportButton = qs("#exportReportButton");
     if (exportButton && exportButton.dataset.bound !== "true") {
       exportButton.dataset.bound = "true";
       exportButton.addEventListener("click", function () {
-        showToast("Đã tổng hợp báo cáo từ " + number(data.invoices.length) + " hóa đơn và " + number(data.finance.length) + " phiếu thu chi.");
+        exportReport(data);
       });
     }
   }
