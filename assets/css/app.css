@@ -904,6 +904,62 @@ button {
   line-height: 1.55;
 }
 
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.evidence-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 214px;
+  padding: 20px;
+  border: 1px solid rgba(174, 213, 236, .92);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(244, 251, 255, .96)),
+    linear-gradient(135deg, rgba(0, 120, 215, .12), transparent 46%);
+  box-shadow: var(--shadow-soft);
+}
+
+.evidence-card::after {
+  content: "";
+  position: absolute;
+  right: -42px;
+  bottom: -54px;
+  width: 130px;
+  height: 130px;
+  border: 26px solid rgba(0, 120, 215, .08);
+  border-radius: 50%;
+}
+
+.evidence-card span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 34px;
+  color: #fff;
+  border-radius: var(--radius);
+  background: var(--blue-800);
+  font-weight: 800;
+}
+
+.evidence-card h3 {
+  position: relative;
+  margin: 18px 0 8px;
+  color: var(--blue-950);
+  font-size: 18px;
+}
+
+.evidence-card p {
+  position: relative;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 .category-meta {
   display: flex;
   gap: 8px;
@@ -1278,6 +1334,43 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+}
+
+.demo-login,
+.auth-note-card {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid rgba(190, 222, 240, .86);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #f3fbff, #ffffff);
+}
+
+.demo-login span,
+.auth-note-card strong {
+  color: var(--blue-950);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.demo-login p,
+.auth-note-card p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.demo-login-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.demo-login-grid .btn {
+  min-height: 40px;
+  padding-inline: 10px;
 }
 
 .divider {
@@ -1989,10 +2082,19 @@ button {
 .cart-list {
   display: grid;
   gap: 10px;
-  min-height: 120px;
+  flex: 1 1 170px;
+  min-height: 96px;
+  max-height: clamp(160px, 30vh, 260px);
   margin: 14px 0;
   overflow-y: auto;
   padding-right: 4px;
+}
+
+.cart-panel .compact-form-grid,
+.cart-panel > .form-row,
+.cart-total,
+.cart-panel .auth-actions {
+  flex: 0 0 auto;
 }
 
 .cart-item {
@@ -2313,6 +2415,7 @@ button {
 @media (max-width: 1120px) {
   .grid-4,
   .guide-grid,
+  .evidence-grid,
   .stat-grid,
   .product-grid,
   .product-list-grid {
@@ -2564,6 +2667,7 @@ button {
   .product-grid,
   .product-list-grid,
   .guide-grid,
+  .evidence-grid,
   .preview-kpis {
     grid-template-columns: 1fr;
   }
