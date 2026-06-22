@@ -1394,6 +1394,74 @@
     });
   }
 
+  function collectAdminUsers() {
+    var fixedUsers = [
+      { username: "quanly", role: roles.quanly, status: "Hoạt động", source: "Tài khoản mẫu" },
+      { username: "banthuoc", role: roles.banthuoc, status: "Hoạt động", source: "Tài khoản mẫu" },
+      { username: "admin", role: roles.admin, status: "Hoạt động", source: "Tài khoản mẫu" }
+    ];
+    var registered = registeredUsers().map(function (item) {
+      return {
+        username: item.email,
+        role: roles[item.role],
+        status: "Tự đăng ký",
+        source: item.phone || "Tạo từ hệ thống"
+      };
+    });
+    return fixedUsers.concat(registered);
+  }
+
+  function renderUserSummary(users) {
+    var target = qs("#userSummary");
+    if (!target) return;
+    var byRole = users.reduce(function (summary, user) {
+      summary[user.role] = (summary[user.role] || 0) + 1;
+      return summary;
+    }, {});
+    target.innerHTML = [
+      ["Tài khoản", number(users.length), "Đang được quản lý"],
+      ["Quản lý", number(byRole[roles.quanly] || 0), "Theo dõi vận hành"],
+      ["Bán thuốc", number(byRole[roles.banthuoc] || 0), "Thao tác POS và sản phẩm"],
+      ["Quản trị", number(byRole[roles.admin] || 0), "Kiểm soát phân quyền"]
+    ].map(function (item) {
+      return '<article class="stat-card"><span>' + item[0] + '</span><strong>' + item[1] + '</strong><small>' + item[2] + '</small></article>';
+    }).join("");
+  }
+
+  function exportAdminUsers(users) {
+    var headers = ["Tài khoản", "Vai trò", "Trạng thái", "Nguồn", "Chính sách"];
+    var rows = users.map(function (user) {
+      return [user.username, user.role, user.status, user.source, "Áp dụng phân quyền theo vai trò"].map(csvCell).join(",");
+    });
+    downloadTextFile("pharmacare-tai-khoan.csv", "\uFEFF" + headers.map(csvCell).join(",") + "\n" + rows.join("\n"), "text/csv;charset=utf-8");
+    showToast("Đã xuất " + number(users.length) + " tài khoản ra file CSV.");
+  }
+
+  function bindAdminUserFilters() {
+    var input = qs("#userSearch");
+    var role = qs("#userRoleFilter");
+    var apply = function () {
+      var keyword = input ? input.value.trim().toLowerCase() : "";
+      var selectedRole = role ? role.value : "";
+      qsa("#userTable tbody tr").forEach(function (row) {
+        var text = row.textContent.toLowerCase();
+        var rowRole = row.children[1] ? row.children[1].textContent.trim() : "";
+        var matchText = !keyword || text.indexOf(keyword) !== -1;
+        var matchRole = !selectedRole || rowRole === selectedRole;
+        row.style.display = matchText && matchRole ? "" : "none";
+      });
+    };
+    if (input && input.dataset.filterBound !== "true") {
+      input.dataset.filterBound = "true";
+      input.addEventListener("input", apply);
+    }
+    if (role && role.dataset.filterBound !== "true") {
+      role.dataset.filterBound = "true";
+      role.addEventListener("change", apply);
+    }
+    apply();
+  }
+
   function renderAdminUsers(data) {
     var target = qs("#userTable");
     if (!target) return;
@@ -1406,11 +1474,13 @@
       return { username: item.email, role: roles[item.role], status: "Tự đăng ký" };
     });
     var users = fixedUsers.concat(registered);
+    renderUserSummary(collectAdminUsers());
     target.innerHTML = '<table class="data-table"><thead><tr><th>Tài khoản</th><th>Vai trò</th><th>Trạng thái</th><th>Chính sách</th></tr></thead><tbody>' +
       users.map(function (user) {
         return '<tr><td><strong>' + user.username + '</strong></td><td>' + user.role + '</td><td><span class="status status-ok">' + user.status + '</span></td><td>Áp dụng phân quyền theo vai trò</td></tr>';
       }).join("") +
       '</tbody></table>';
+    bindAdminUserFilters();
     bindAdminUserActions(data);
   }
 
@@ -1480,11 +1550,19 @@
 
   function bindAdminUserActions(data) {
     var button = qs("#createUserButton");
-    if (!button || button.dataset.bound === "true") return;
-    button.dataset.bound = "true";
-    button.addEventListener("click", function () {
-      openUserModal(data);
-    });
+    if (button && button.dataset.bound !== "true") {
+      button.dataset.bound = "true";
+      button.addEventListener("click", function () {
+        openUserModal(data);
+      });
+    }
+    var exportButton = qs("#exportUserButton");
+    if (exportButton && exportButton.dataset.bound !== "true") {
+      exportButton.dataset.bound = "true";
+      exportButton.addEventListener("click", function () {
+        exportAdminUsers(collectAdminUsers());
+      });
+    }
   }
 
   function activeInvoices(data) {

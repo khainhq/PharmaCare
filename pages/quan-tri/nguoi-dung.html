@@ -19,14 +19,33 @@
             <h1>Quản trị người dùng</h1>
             <p>Quản lý tài khoản đăng nhập, vai trò, trạng thái hoạt động và chính sách truy cập theo phân quyền.</p>
           </div>
-          <button id="createUserButton" class="btn btn-primary" type="button">Tạo tài khoản</button>
+          <div class="toolbar-group">
+            <button id="createUserButton" class="btn btn-primary" type="button">Tạo tài khoản</button>
+            <button id="exportUserButton" class="btn btn-light" type="button">Xuất tài khoản</button>
+          </div>
         </section>
+
+        <section id="userSummary" class="stat-grid" aria-label="Chỉ số tài khoản"></section>
 
         <section class="two-col">
           <div>
             <div class="panel-header">
               <h2>Tài khoản và vai trò</h2>
               <span class="tag">Kiểm soát truy cập</span>
+            </div>
+            <div class="toolbar" aria-label="Bộ lọc tài khoản">
+              <div class="toolbar-group">
+                <div class="search-box">
+                  <span data-icon="search"></span>
+                  <input id="userSearch" class="form-control" type="search" placeholder="Tìm tài khoản, vai trò, trạng thái">
+                </div>
+                <select id="userRoleFilter" class="form-select" style="width:220px" aria-label="Lọc vai trò tài khoản">
+                  <option value="">Tất cả vai trò</option>
+                  <option value="Quản lý">Quản lý</option>
+                  <option value="Dược sĩ bán thuốc">Dược sĩ bán thuốc</option>
+                  <option value="Quản trị viên">Quản trị viên</option>
+                </select>
+              </div>
             </div>
             <div id="userTable" class="table-wrap" aria-label="Bảng người dùng"></div>
           </div>
@@ -57,6 +76,6 @@
   </div>
 
   <script>window.PHARMA_BASE = "../../";</script>
-  <script src="../../assets/js/app.js?v=20260622-inventory1"></script>
+  <script src="../../assets/js/app.js?v=20260622-admin1"></script>
 </body>
 </html>
