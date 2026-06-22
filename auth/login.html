@@ -6,7 +6,7 @@
   <meta name="description" content="Đăng nhập PharmaCare">
   <title>Đăng nhập - PharmaCare</title>
   <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../assets/css/app.css?v=20260621-polish1">
+  <link rel="stylesheet" href="../assets/css/app.css?v=20260622-authdemo1">
 </head>
 <body class="auth-page">
   <main class="auth-shell">
@@ -37,10 +37,16 @@
         </div>
       </form>
 
-      <div class="divider"><span>Hoặc đăng nhập bằng</span></div>
-      <div class="social-row">
-        <button class="btn btn-light" type="button" data-social-login="google">Google</button>
-        <button class="btn btn-light" type="button" data-social-login="facebook">Facebook</button>
+      <div class="demo-login" aria-label="Tài khoản mẫu">
+        <div>
+          <span>Tài khoản mẫu</span>
+          <p>Chọn nhanh vai trò để kiểm thử đúng luồng trong báo cáo.</p>
+        </div>
+        <div class="demo-login-grid">
+          <button class="btn btn-light" type="button" data-fill-login="quanly">Quản lý</button>
+          <button class="btn btn-light" type="button" data-fill-login="banthuoc">Bán thuốc</button>
+          <button class="btn btn-light" type="button" data-fill-login="admin">Quản trị</button>
+        </div>
       </div>
 
       <p class="auth-switch">Chưa có tài khoản? <a href="register.html">Đăng ký tại đây</a></p>
@@ -51,7 +57,7 @@
   <script>
     window.PHARMA_BASE = "../";
   </script>
-  <script src="../assets/js/app.js?v=20260621-polish1"></script>
-  <script src="../assets/js/auth.js?v=20260614-cleanui1"></script>
+  <script src="../assets/js/app.js?v=20260622-authdemo1"></script>
+  <script src="../assets/js/auth.js?v=20260622-authdemo1"></script>
 </body>
 </html>

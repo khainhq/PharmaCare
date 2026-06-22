@@ -115,10 +115,18 @@
     });
   }
 
-  function bindSocialButtons() {
-    document.querySelectorAll("[data-social-login]").forEach(function (button) {
+  function bindDemoLoginButtons() {
+    document.querySelectorAll("[data-fill-login]").forEach(function (button) {
       button.addEventListener("click", function () {
-        showAlert("success", "Nút đăng nhập này đã được đặt sẵn cho giai đoạn kết nối sau.");
+        var user = defaultUsers.find(function (item) {
+          return item.username === button.dataset.fillLogin;
+        });
+        var account = qs("#account");
+        var password = qs("#password");
+        if (!user || !account || !password) return;
+        account.value = user.username;
+        password.value = user.password;
+        showAlert("success", "Đã điền tài khoản mẫu " + user.name + ".");
       });
     });
   }
@@ -126,6 +134,6 @@
   document.addEventListener("DOMContentLoaded", function () {
     bindLogin();
     bindRegister();
-    bindSocialButtons();
+    bindDemoLoginButtons();
   });
 })();
