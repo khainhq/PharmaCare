@@ -45,6 +45,22 @@
       .replace(/'/g, "&#39;");
   }
 
+  function csvCell(value) {
+    return '"' + String(value == null ? "" : value).replace(/"/g, '""') + '"';
+  }
+
+  function downloadTextFile(filename, content, mimeType) {
+    var blob = new Blob([content], { type: mimeType || "text/plain;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
   function getSession() {
     try {
       return JSON.parse(localStorage.getItem(sessionKey) || "null");
@@ -1017,10 +1033,18 @@
     openAppModal("Hóa đơn " + invoice.id, invoiceDetailBody(invoice), cancelButton + '<button class="btn btn-light" type="button" data-modal-close>Đóng</button>');
   }
 
-  function cancelInvoice(data, invoice) {
+  function openCancelInvoiceModal(invoice) {
+    if (!invoice) return;
+    openAppModal("Hủy hóa đơn " + invoice.id,
+      '<div class="form-grid">' +
+      '<p class="muted-note">Nhập lý do để lưu vết kiểm tra và hoàn tồn kho cho các dòng hàng trong hóa đơn.</p>' +
+      '<div class="form-row"><label for="cancelInvoiceReason">Lý do hủy</label><textarea id="cancelInvoiceReason" class="form-textarea" placeholder="Ví dụ: Khách đổi/trả hàng hoặc lập sai thông tin"></textarea></div>' +
+      '</div>',
+      '<button class="btn btn-danger" type="button" data-confirm-cancel-invoice="' + escapeHtml(invoice.id) + '">Xác nhận hủy</button><button class="btn btn-light" type="button" data-modal-close>Đóng</button>');
+  }
+
+  function cancelInvoice(data, invoice, reason) {
     if (!invoice || invoice.status === "Đã hủy") return;
-    var reason = window.prompt("Nhập lý do hủy hóa đơn:", "Khách đổi/trả hàng");
-    if (!reason) return;
     invoice.status = "Đã hủy";
     invoice.cancelReason = reason;
     invoice.canceledAt = nowParts().display;
@@ -1047,6 +1071,26 @@
     renderAlerts(data);
     renderKpis(data);
     showToast("Đã hủy hóa đơn và hoàn tồn kho nếu có chi tiết sản phẩm.");
+  }
+
+  function exportInvoices(data) {
+    var headers = ["Mã hóa đơn", "Khách hàng", "Nhân viên", "Tạm tính", "Giảm giá", "Tổng tiền", "Phương thức", "Thời gian", "Trạng thái"];
+    var rows = (data.invoices || []).map(function (invoice) {
+      return [
+        invoice.id,
+        invoice.customer,
+        invoice.staff,
+        invoice.subtotal || invoice.total,
+        invoice.discount || 0,
+        invoice.total,
+        invoice.paymentMethod || "",
+        invoice.createdAt,
+        invoice.status
+      ].map(csvCell).join(",");
+    });
+    var content = "\uFEFF" + headers.map(csvCell).join(",") + "\n" + rows.join("\n");
+    downloadTextFile("pharmacare-hoa-don.csv", content, "text/csv;charset=utf-8");
+    showToast("Đã xuất " + number((data.invoices || []).length) + " hóa đơn ra file CSV.");
   }
 
   function bindInvoiceFilters() {
@@ -1083,13 +1127,23 @@
         if (invoice) openInvoiceModal(invoice, data);
       }
       if (cancel) {
-        cancelInvoice(data, findInvoice(data, cancel.dataset.cancelInvoice));
+        openCancelInvoiceModal(findInvoice(data, cancel.dataset.cancelInvoice));
+      }
+      var confirmCancel = event.target.closest("[data-confirm-cancel-invoice]");
+      if (confirmCancel) {
+        var reasonInput = qs("#cancelInvoiceReason");
+        var reason = reasonInput ? reasonInput.value.trim() : "";
+        if (!reason) {
+          showToast("Vui lòng nhập lý do hủy hóa đơn.");
+          return;
+        }
+        cancelInvoice(data, findInvoice(data, confirmCancel.dataset.confirmCancelInvoice), reason);
       }
     });
     var exportButton = qs("#exportInvoiceButton");
     if (exportButton) {
       exportButton.addEventListener("click", function () {
-        showToast("Đã chuẩn bị danh sách " + number(data.invoices.length) + " hóa đơn để xuất.");
+        exportInvoices(data);
       });
     }
   }
