@@ -649,6 +649,48 @@
     }).join("");
     target.innerHTML = '<table class="data-table"><thead><tr><th>Mã</th><th>Sản phẩm</th><th>Nhóm</th><th>Tồn</th><th>Hạn dùng</th><th>Tình trạng</th><th>Cảnh báo</th><th>Thao tác</th></tr></thead><tbody>' + rows + '</tbody></table>';
     bindStockActions(data);
+    bindInventoryExport(data);
+  }
+
+  function renderStockMovements(data) {
+    var target = qs("#stockMovementList");
+    if (!target) return;
+    var movements = (data.stockMovements || []).slice(0, 8);
+    target.innerHTML = movements.map(function (item) {
+      return '<article class="report-row">' +
+        '<span class="nav-icon">' + icon(item.type === "Nhập kho" ? "box" : "alert") + '</span>' +
+        '<div><h4>' + escapeHtml(item.type + " · " + item.productName) + '</h4><p>' + escapeHtml(item.code + " · " + item.createdAt + " · " + item.reason) + '</p></div>' +
+        '<strong>' + number(item.quantity) + '</strong>' +
+        '</article>';
+    }).join("") || emptyState("Chưa có phiếu nhập xuất kho trong phiên làm việc này.");
+  }
+
+  function exportInventory(data) {
+    var headers = ["Mã sản phẩm", "Tên sản phẩm", "Nhóm", "Nhà cung cấp", "Tồn", "Giá bán", "Hạn dùng", "Tình trạng", "Cảnh báo"];
+    var rows = (data.products || []).map(function (product) {
+      return [
+        product.code,
+        product.name,
+        product.category,
+        product.supplier,
+        product.stock,
+        product.price,
+        product.expiry,
+        stockStatus(product),
+        expiryStatus(product)
+      ].map(csvCell).join(",");
+    });
+    downloadTextFile("pharmacare-ton-kho.csv", "\uFEFF" + headers.map(csvCell).join(",") + "\n" + rows.join("\n"), "text/csv;charset=utf-8");
+    showToast("Đã xuất " + number((data.products || []).length) + " dòng tồn kho ra file CSV.");
+  }
+
+  function bindInventoryExport(data) {
+    var button = qs("#exportInventoryButton");
+    if (!button || button.dataset.bound === "true") return;
+    button.dataset.bound = "true";
+    button.addEventListener("click", function () {
+      exportInventory(data);
+    });
   }
 
   function stockFormBody(data, mode, code) {
@@ -697,12 +739,15 @@
         createdAt: stamp.display,
         staff: currentActorName()
       };
+      data.stockMovements = data.stockMovements || [];
+      data.stockMovements.unshift(movement);
       updateOperationalState(function (state) {
         state.stockMovements.unshift(movement);
       });
       addActivity(data, movement.type + " " + product.name, number(qty) + " sản phẩm · " + reason, mode === "in" ? "Hoàn tất" : "Cần xử lý");
       closeAppModal();
       renderInventory(data);
+      renderStockMovements(data);
       renderAlerts(data);
       renderKpis(data);
       showToast("Đã lưu phiếu " + movement.type.toLowerCase() + " và cập nhật tồn kho.");
@@ -2014,6 +2059,7 @@
       renderProductsGrid(data);
       initPos(data);
       renderInventory(data);
+      renderStockMovements(data);
       renderAlerts(data);
       renderInvoices(data);
       renderFinance(data);

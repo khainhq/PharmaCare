@@ -22,6 +22,7 @@
           <div class="toolbar-group">
             <button id="openStockIn" class="btn btn-primary" type="button">Nhập kho</button>
             <button id="openStockOut" class="btn btn-light" type="button">Xuất kho</button>
+            <button id="exportInventoryButton" class="btn btn-light" type="button">Xuất tồn kho</button>
           </div>
         </section>
 
@@ -44,11 +45,19 @@
             <div id="alertList" class="alert-list"></div>
           </div>
         </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Lịch sử nhập xuất kho</h2>
+            <span class="tag">Phiếu gần nhất</span>
+          </div>
+          <div id="stockMovementList" class="report-list"></div>
+        </section>
       </main>
     </div>
   </div>
 
   <script>window.PHARMA_BASE = "../../";</script>
-  <script src="../../assets/js/app.js?v=20260622-finance1"></script>
+  <script src="../../assets/js/app.js?v=20260622-inventory1"></script>
 </body>
 </html>
