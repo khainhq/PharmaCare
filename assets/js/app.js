@@ -1148,9 +1148,53 @@
     }
   }
 
+  function financeTotals(data) {
+    var income = data.finance.filter(function (item) { return item.type === "Thu"; }).reduce(function (sum, item) { return sum + Number(item.amount || 0); }, 0);
+    var expense = data.finance.filter(function (item) { return item.type === "Chi"; }).reduce(function (sum, item) { return sum + Number(item.amount || 0); }, 0);
+    return {
+      income: income,
+      expense: expense,
+      net: income - expense,
+      count: data.finance.length
+    };
+  }
+
+  function renderFinanceSummary(data) {
+    var target = qs("#financeSummary");
+    if (!target) return;
+    var totals = financeTotals(data);
+    target.innerHTML = [
+      ["Tổng thu", money(totals.income), "Phiếu thu và hóa đơn đã ghi nhận"],
+      ["Tổng chi", money(totals.expense), "Chi phí vận hành nhà thuốc"],
+      ["Dòng tiền ròng", money(totals.net), totals.net >= 0 ? "Cân đối dương" : "Cần kiểm soát chi"],
+      ["Số phiếu", number(totals.count), "Tất cả phiếu thu chi"]
+    ].map(function (item) {
+      return '<article class="stat-card"><span>' + item[0] + '</span><strong>' + item[1] + '</strong><small>' + item[2] + '</small></article>';
+    }).join("");
+  }
+
+  function exportFinance(data) {
+    var headers = ["Mã phiếu", "Loại", "Nội dung", "Số tiền", "Ngày tạo", "Nhân sự", "Tham chiếu"];
+    var rows = (data.finance || []).map(function (item) {
+      return [item.code, item.type, item.content, item.amount, item.createdAt, item.staff || "", item.ref || ""].map(csvCell).join(",");
+    });
+    downloadTextFile("pharmacare-thu-chi.csv", "\uFEFF" + headers.map(csvCell).join(",") + "\n" + rows.join("\n"), "text/csv;charset=utf-8");
+    showToast("Đã xuất " + number((data.finance || []).length) + " phiếu thu chi ra file CSV.");
+  }
+
+  function bindFinanceExport(data) {
+    var button = qs("#exportFinanceButton");
+    if (!button || button.dataset.bound === "true") return;
+    button.dataset.bound = "true";
+    button.addEventListener("click", function () {
+      exportFinance(data);
+    });
+  }
+
   function renderFinance(data) {
     var target = qs("#financeTable");
     if (!target) return;
+    renderFinanceSummary(data);
     target.innerHTML = '<table class="data-table"><thead><tr><th>Mã phiếu</th><th>Loại</th><th>Nội dung</th><th>Số tiền</th><th>Ngày tạo</th><th>Trạng thái</th></tr></thead><tbody>' +
       data.finance.map(function (item) {
         var status = item.type === "Thu" ? "Đã thu" : "Đã chi";
@@ -1158,6 +1202,7 @@
       }).join("") +
       '</tbody></table>';
     bindFinanceForm(data);
+    bindFinanceExport(data);
   }
 
   function bindFinanceForm(data) {
